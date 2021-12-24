@@ -1,14 +1,17 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import express from "express"
+import mongoose from 'mongoose'
+import dotenv from "dotenv"
+import authRoute from './routes/auth'
 
 const app = express();
 dotenv.config();
+app.use(express.json());
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000
 
 mongoose
-  .connect(process.env.MONGO_URL, {
+    //@ts-ignore
+  .connect( process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -17,6 +20,8 @@ mongoose
     console.error(err);
   });
 
+  app.use("/api/auth", authRoute);
+
 app.listen(port, () => {
  console.log(`server is listening on ${port}`);
-});
+});  
