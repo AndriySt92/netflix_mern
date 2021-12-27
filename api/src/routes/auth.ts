@@ -96,6 +96,7 @@ router.post(
 
         const accessToken = jwt.sign(
           { id: user._id, isAdmin: user.isAdmin },
+          //@ts-ignore
           process.env.SECRET_KEY,
           { expiresIn: '5d' },
         )
