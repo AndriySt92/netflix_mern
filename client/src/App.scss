@@ -1,6 +1,9 @@
 :root {
   --main-color: #000;
 }
+body{
+  overflow-x: hidden;
+}
 
 .link {
   color: inherit;
