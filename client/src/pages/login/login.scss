@@ -1,0 +1,161 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%),
+    url('http://mppmduse2pmpovwapp.azurewebsites.net/wp-content/uploads/2019/09/netflix-background-9.jpg');
+  background-size: cover;
+  position: relative;
+}
+
+.top {
+  .wrapper {
+    padding: 20px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo {
+      height: 40px;
+    }
+  }
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+
+  form {
+    width: 300px;
+    min-height: 550px;
+    padding: 60px 68px 40px;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+    color: gray;
+    display: flex;
+    flex-direction: column;
+
+    .fbLogin {
+        display: block;
+        margin-bottom: 32px;
+        img {
+          width: 20px;
+          height: 20px;
+          margin-right: 10px;
+          vertical-align: middle;
+        }
+
+        a{
+            color: inherit;
+            text-decoration: none;
+        }
+      }
+
+      small{
+          b{
+              color: rgb(73, 73, 255);
+          }
+      }
+      .checkboxWrapper{
+        margin: 0px -40px 0px -40px;
+    }
+  }
+  h1 {
+    margin-bottom: 32px;
+    color: #fff;
+  }
+  input {
+    height: 45px;
+    border-radius: 5px;
+    background-color: #333;
+    border: none;
+    color: white;
+    padding-left: 10px;
+    margin-bottom: 16px;
+
+    &::placeholder {
+      color: lightgray;
+    }
+  }
+
+  button {
+    height: 40px;
+    border-radius: 5px;
+    background-color: red;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    margin-top: 32px;
+    cursor: pointer;
+  }
+
+  div {
+    display: flex;
+    justify-content: space-around;
+    height: auto;
+    
+    div {
+      display: flex;
+      align-items: center;
+      height: auto;
+      margin-bottom: 32px;
+      span {
+        margin: 0px;
+      }
+      input {
+        margin: 0px;
+        height: auto;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  span {
+    color: gray;
+    margin-bottom: 32px;
+    b {
+      color: #fff;
+    }
+  }
+}
+
+.myinput[type='checkbox']:before {
+  position: relative;
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: -3px;
+  left: -3px;
+  border: 1px solid #808080;
+  content: '';
+  background: #fff;
+}
+
+.myinput[type='checkbox']:after {
+  position: relative;
+  display: block;
+  left: -3px;
+  top: -20px;
+  width: 15px;
+  height: 15px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b3b3b3 #dcddde #dcddde #b3b3b3;
+  content: '';
+  background-image: linear-gradient(135deg, #b1b6be 0%, #fff 100%);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.myinput[type='checkbox']:checked:after {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAQAAABuW59YAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAB2SURBVHjaAGkAlv8A3QDyAP0A/QD+Dam3W+kCAAD8APYAAgTVZaZCGwwA5wr0AvcA+Dh+7UX/x24AqK3Wg/8nt6w4/5q71wAAVP9g/7rTXf9n/+9N+AAAtpJa/zf/S//DhP8H/wAA4gzWj2P4lsf0JP0A/wADAHB0Ngka6UmKAAAAAElFTkSuQmCC');
+}
