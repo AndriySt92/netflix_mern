@@ -19,13 +19,6 @@ router.post(
     }),
     check('password', 'Minimal lenght of password is 6 symbols ')
       .isLength({ min: 6 })
-      .custom((value: any, { req }: any) => {
-        if (value !== req.body.password2) {
-          throw new Error("Password don't match")
-        } else {
-          return value
-        }
-      }),
   ],
   async (req: express.Request, res: express.Response): Promise<void> => {
     try {
@@ -56,7 +49,7 @@ router.post(
       })
 
       const user = await newUser.save()
-      res.status(201).json(user)
+      res.status(201).json({message: "Registration was successful"})
     } catch (err) {
       res.status(500).json(err)
     }

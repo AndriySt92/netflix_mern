@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './register.scss'
-
-interface IRegisterData {
-  email: string
-  password: string
-  username: string
-}
+import { NavLink } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { register } from '../../store/reducers/ActionsCreators'
+import { clearError, setIsSuccess } from '../../store/reducers/AuthSlice'
+import { useHistory } from 'react-router-dom'
+import { RegisterData } from '../../models/IUser'
 
 const question = [
   {
@@ -55,7 +55,7 @@ const question = [
 ]
 
 export const Register: React.FC = () => {
-  const [registerData, setRegisterData] = useState<IRegisterData>({
+  const [registerData, setRegisterData] = useState<RegisterData>({
     email: '',
     password: '',
     username: '',
@@ -64,8 +64,24 @@ export const Register: React.FC = () => {
   const [isOpenAnswer, setIsOpenAnswer] = useState<boolean>(false)
   const [indexQuestion, setIndexQuestion] = useState<number | null>(null)
 
+  const dispatch = useAppDispatch()
+  const { isLoading, error, isSuccess } = useAppSelector((state) => state.authReducer)
+  const history = useHistory()
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearError())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isSuccess) {
+      history.push('/login')
+      dispatch(setIsSuccess(false))
+    }
+  }, [isSuccess])
+
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name, e.target.value)
     setRegisterData({ ...registerData, [e.target.name]: e.target.value })
   }
 
@@ -75,13 +91,17 @@ export const Register: React.FC = () => {
 
   const handleFinish = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    try {
-    } catch (error) {}
+    dispatch(register(registerData))
   }
 
   const handleClickQueston = (index: number) => {
-    setIndexQuestion(index)
-    setIsOpenAnswer(!isOpenAnswer)
+    if (indexQuestion !== index) {
+      setIndexQuestion(index)
+    } else {
+      setIndexQuestion(index)
+      setIsOpenAnswer(!isOpenAnswer)
+    }
+ 
   }
 
   return (
@@ -93,7 +113,9 @@ export const Register: React.FC = () => {
             alt=""
             className="logo"
           />
-          <button className="loginButton">Sign in</button>
+          <button className="loginButton">
+            <NavLink to="/login">Sign in</NavLink>
+          </button>
         </div>
       </div>
       <div className="registerForm">
@@ -117,25 +139,28 @@ export const Register: React.FC = () => {
             </button>
           </div>
         ) : (
-          <form action="" className="input">
-            <input
-              type="username"
-              placeholder="username"
-              name="username"
-              value={registerData.username}
-              onChange={changeHandler}
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="password"
-              value={registerData.password}
-              onChange={changeHandler}
-            />
-            <button className="registerButton" onClick={handleFinish}>
-              Start
-            </button>
-          </form>
+          <>
+            {error && <div className="error">{error}</div>}
+            <form action="" className="input">
+              <input
+                type="username"
+                placeholder="username"
+                name="username"
+                value={registerData.username}
+                onChange={changeHandler}
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                value={registerData.password}
+                onChange={changeHandler}
+              />
+              <button disabled={isLoading} className="registerButton" onClick={handleFinish}>
+                Start
+              </button>
+            </form>
+          </>
         )}
       </div>
       <div className="section">
@@ -271,18 +296,43 @@ export const Register: React.FC = () => {
             </ul>
             <div className="registerForm">
               <h3>Ready to watch? Enter your email to create or restart your membership.</h3>
-              <div className="input">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email address"
-                  value={registerData.email}
-                  onChange={changeHandler}
-                />
-                <button className="registerButton" onClick={handleGetStated}>
-                  Get started
-                </button>
-              </div>
+              {!isGetStated ? (
+                <div className="input">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email address"
+                    value={registerData.email}
+                    onChange={changeHandler}
+                  />
+                  <button className="registerButton" onClick={handleGetStated}>
+                    Get started
+                  </button>
+                </div>
+              ) : (
+                <>
+                  {error && <div className="error">{error}</div>}
+                  <form action="" className="input">
+                    <input
+                      type="username"
+                      placeholder="username"
+                      name="username"
+                      value={registerData.username}
+                      onChange={changeHandler}
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="password"
+                      value={registerData.password}
+                      onChange={changeHandler}
+                    />
+                    <button disabled={isLoading} className="registerButton" onClick={handleFinish}>
+                      Start
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -309,7 +359,6 @@ export const Register: React.FC = () => {
           </ul>
           <span>Netflix Ukraine</span>
         </div>
-            
       </div>
     </div>
   )

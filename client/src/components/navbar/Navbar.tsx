@@ -2,8 +2,18 @@ import React from 'react'
 import { ArrowDropDown, Notifications, Search } from '@material-ui/icons'
 import userLogo from '../../images/users/1.png'
 import './navbar.scss'
+import { logout } from '../../store/reducers/AuthSlice'
+import { useAppDispatch } from '../../hooks/redux'
+import { useAppSelector } from '../../hooks/redux'
 
 export const Navbar: React.FC = () => {
+  const { user } = useAppSelector((state) => state.authReducer)
+  const dispatch = useAppDispatch()
+
+  const handleLogout = () => {
+    dispatch(logout())
+    localStorage.removeItem('user')
+  }
   return (
     <div className="navbar scroll">
       <div className="container">
@@ -22,15 +32,12 @@ export const Navbar: React.FC = () => {
           <Search className="icon" />
           <span>KID</span>
           <Notifications className="icon" />
-          <img
-            src={userLogo}
-            alt=""
-          />
+          <img src={userLogo} alt="" />
           <div className="profile">
             <ArrowDropDown className="icon" />
             <div className="options">
               <span>Setting</span>
-              <span>Logout</span>
+              <span onClick={handleLogout}>Logout</span>
             </div>
           </div>
         </div>
