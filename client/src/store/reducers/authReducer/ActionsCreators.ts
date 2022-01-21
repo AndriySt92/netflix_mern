@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IUser, LoginData, RegisterData } from '../../models/IUser'
+import { IUser, LoginData, RegisterData } from '../../../models/IUser'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 export const register = createAsyncThunk<{message: string}, RegisterData>(

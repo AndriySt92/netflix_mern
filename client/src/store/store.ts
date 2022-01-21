@@ -1,8 +1,10 @@
 import { configureStore, combineReducers,  } from '@reduxjs/toolkit'
-import authReducer from './reducers/AuthSlice'
+import authReducer from './reducers/authReducer/AuthSlice'
+import movieReducer from './reducers/movieReducer/MovieSlice'
 
 const rootReducer = combineReducers({
-    authReducer
+    authReducer,
+    movieReducer
 })
 
 export const store = configureStore({

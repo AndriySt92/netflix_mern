@@ -5,7 +5,7 @@ import { Login } from './pages/login/Login'
 import { Watch } from './pages/watch/Watch'
 import { Home } from './pages/home/Home'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
-import { setAuthUser } from './store/reducers/AuthSlice'
+import { setAuthUser } from './store/reducers/authReducer/AuthSlice'
 import { useAppDispatch } from './hooks/redux'
 import { useAppSelector } from './hooks/redux'
 

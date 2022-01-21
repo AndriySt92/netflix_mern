@@ -84,7 +84,7 @@ router.get("/random", verify, async (req: IGetUserAuthInfoRequest, res: express.
         { $sample: { size: 1 } },
       ]);
     }
-    res.status(200).json(movie);
+    res.status(200).json(movie[0]);
   } catch (err) {
     res.status(500).json(err);
   }

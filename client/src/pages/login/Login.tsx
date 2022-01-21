@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './login.scss'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { LoginData } from '../../models/IUser'
-import {login} from '../../store/reducers/ActionsCreators'
+import {login} from '../../store/reducers/authReducer/ActionsCreators'
 import { NavLink } from 'react-router-dom'
 
 export const Login = () => {

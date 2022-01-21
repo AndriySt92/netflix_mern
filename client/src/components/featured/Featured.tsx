@@ -2,11 +2,15 @@ import React from 'react'
 import { InfoOutlined, PlayArrow } from '@material-ui/icons'
 import poster from '../../images/misc/joker1.jpg'
 import './featured.scss'
+import { IMovie } from '../../models/IMovie'
 
-interface IFeaturedProps{
+
+interface FeaturedProps{
     type: 'serial' | 'movie'
+    movie: IMovie
 }
-export const Featured: React.FC<IFeaturedProps> = ({ type }) => {
+export const Featured: React.FC<FeaturedProps> = ({ type = 'movie', movie }) => {
+ 
   return (
     <div className="featured">
       {type && (
@@ -32,11 +36,9 @@ export const Featured: React.FC<IFeaturedProps> = ({ type }) => {
       )}
       <img src={poster} alt="" />
       <div className="info">
-        <h1>Watch Joker Now</h1>
+        <h1>Watch {movie?.title} Now</h1>
         <span className="desc">
-          In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by
-          society. He then embarks on a downward spiral of revolution and bloody crime. This path
-          brings him face-to-face with his alter-ego: the Joker.
+          {movie?.desc}
         </span>
         <div className="buttons">
           <button className="play">
