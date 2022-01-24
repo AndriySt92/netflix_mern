@@ -4,19 +4,18 @@ import poster from '../../images/misc/joker1.jpg'
 import './featured.scss'
 import { IMovie } from '../../models/IMovie'
 
-
-interface FeaturedProps{
-    type: 'serial' | 'movie'
-    movie: IMovie
+interface FeaturedProps {
+  type: 'serial' | 'movie'
+  movie: IMovie
+  setGenre: (genre: string) => void
 }
-export const Featured: React.FC<FeaturedProps> = ({ type = 'movie', movie }) => {
- 
+export const Featured: React.FC<FeaturedProps> = ({ type = 'movie', movie, setGenre }) => {
   return (
     <div className="featured">
       {type && (
         <div className="category">
           <span>{type === 'movie' ? 'Movies' : 'Series'}</span>
-          <select name="genre" id="genre">
+          <select name="genre" id="genre" onChange={(e) => setGenre(e.target.value)}>
             <option>Genre</option>
             <option value="adventure">Adventure</option>
             <option value="comedy">Comedy</option>
@@ -37,9 +36,7 @@ export const Featured: React.FC<FeaturedProps> = ({ type = 'movie', movie }) => 
       <img src={poster} alt="" />
       <div className="info">
         <h1>Watch {movie?.title} Now</h1>
-        <span className="desc">
-          {movie?.desc}
-        </span>
+        <span className="desc">{movie?.desc}</span>
         <div className="buttons">
           <button className="play">
             <PlayArrow />

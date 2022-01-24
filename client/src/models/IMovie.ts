@@ -9,5 +9,6 @@ export interface IMovie {
     year: string
     limit: number
     genre: string
+    duration: string
     isSeries: boolean
 }
