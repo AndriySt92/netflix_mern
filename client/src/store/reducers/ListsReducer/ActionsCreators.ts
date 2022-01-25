@@ -9,7 +9,7 @@ export const fetchLists = createAsyncThunk<Array<IList>, {type?: string, genre?:
     try {
       let res = await axios({
         method: 'get',
-        url: `/api/lists${type ? "?type=" + type : ""}${
+        url: `/api/lists/?${type ? "type=" + type : ""}${
           genre ? "&genre=" + genre : ""
         }`,
         headers: {

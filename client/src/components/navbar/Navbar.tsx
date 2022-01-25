@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { ArrowDropDown, Notifications, Search } from '@material-ui/icons'
 import userLogo from '../../images/users/1.png'
 import './navbar.scss'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../store/reducers/authReducer/AuthSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import { useAppSelector } from '../../hooks/redux'
@@ -11,10 +11,12 @@ export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { user } = useAppSelector((state) => state.authReducer)
   const dispatch = useAppDispatch()
+  const history = useHistory()
 
   const handleLogout = () => {
     dispatch(logout())
     localStorage.removeItem('user')
+    history.push('/login')
   }
 
   window.onscroll = () => {

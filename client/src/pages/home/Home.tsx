@@ -14,19 +14,19 @@ interface HomeProps {
     type?: 'series' | 'movies'
 }
 
-export const Home: React.FC<HomeProps> = ({type = 'movie'}) => {
+export const Home: React.FC<HomeProps> = ({type}) => {
     const [genre, setGenre] = useState<string>('')
     const dispatch = useAppDispatch()
     const {movie, error: errorMovie, isLoading: isLoadingMovie} = useAppSelector(state => state.movieReducer)
     const {lists, error: errorLists, isLoading: isLoadingLists} = useAppSelector(state => state.listsReducer)
     
     useEffect(() => {
-      dispatch(fetchMovie(type))
+      dispatch(fetchMovie({type}))
       dispatch(fetchLists({type, genre}))
     }, []);
    
     useEffect(() => {
-      dispatch(fetchMovie(type))
+      dispatch(fetchMovie({type}))
       dispatch(fetchLists({type, genre}))
     }, [type, genre]);
   

@@ -9,26 +9,37 @@ interface ListProps {
 }
 
 export const List: React.FC<ListProps> = ({ list }) => {
-  const [isMoved, setIsMoved] = useState(false)
-  const [slideNumber, setSlideNumber] = useState(0)
-  const [clickLimit, setClickLimit] = useState(window.innerWidth / 230)
-
+  const [isMovedLeft, setIsMovedLeft] = useState<boolean>(false)
+  const [isMovedRight, setIsMovedRight] = useState<boolean>(true)
+  const [slideNumber, setSlideNumber] = useState<number>(0)
   const listRef = useRef<any>()
+  const clickLimit: number =
+    Math.ceil(listRef.current?.clientWidth / 230) - Math.floor(window.innerWidth / 230)
 
   const handleClick = (direction: string) => {
-    setIsMoved(true)
     let distance = listRef.current?.getBoundingClientRect().x - 50
+
+    setIsMovedLeft(true)
     if (direction === 'left' && slideNumber > 0) {
+      setIsMovedRight(true)
       setSlideNumber(slideNumber - 1)
       listRef.current.style.transform = `translateX(${230 + distance}px)`
+
+      if (slideNumber - 1 == 0) {
+        setIsMovedLeft(false)
+      }
     }
-    if (direction === 'right' && slideNumber < 10 - clickLimit) {
+    if (direction === 'right' && slideNumber < clickLimit) {
+      setIsMovedLeft(true)
       setSlideNumber(slideNumber + 1)
       listRef.current.style.transform = `translateX(${-230 + distance}px)`
+
+      if (slideNumber + 1 == clickLimit) {
+        setIsMovedRight(false)
+      }
     }
   }
 
- 
   return (
     <div className="list">
       <span className="listTitle">{list.title}</span>
@@ -36,7 +47,7 @@ export const List: React.FC<ListProps> = ({ list }) => {
         <ArrowBackIosOutlined
           className="sliderArrow left"
           onClick={() => handleClick('left')}
-          style={{ display: !isMoved && 'none' as any }}
+          style={{ display: !isMovedLeft && ('none' as any) }}
         />
         <div className="container" ref={listRef}>
           {list.content.map((showId, i) => (
@@ -46,6 +57,7 @@ export const List: React.FC<ListProps> = ({ list }) => {
         <ArrowForwardIosOutlined
           className="sliderArrow right"
           onClick={() => handleClick('right')}
+          style={{ display: !isMovedRight && ('none' as any) }}
         />
       </div>
     </div>

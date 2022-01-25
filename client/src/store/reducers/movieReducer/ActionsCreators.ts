@@ -4,13 +4,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { getToken } from '../../../helpers/token'
 
 
-export const fetchMovie = createAsyncThunk<IMovie, string>(
+export const fetchMovie = createAsyncThunk<IMovie, {type?: string}>(
   'movie/fetchMovie',
-  async function (type, { rejectWithValue }) {
+  async function (params, { rejectWithValue }) {
     try {
       let res = await axios({
         method: 'get',
-        url: `/api/movies/random?type=${type}`,
+        url: `/api/movies/random?${params.type ? 'type=' + params.type: ''}`,
         headers: {
           token: getToken(),
         },
