@@ -7,6 +7,8 @@ import { useAppDispatch } from './hooks/redux'
 import { useAppSelector } from './hooks/redux'
 import Topbar from './components/topbar/Topbar'
 import Sidebar from './components/sidebar/Sidebar'
+import { getUsers } from './store/reducers/usersReducer/ActionsCreators'
+import { UserList } from './pages/usersList/UsersList'
 
 function App() {
   const { user } = useAppSelector((state) => state.authReducer)
@@ -27,7 +29,12 @@ function App() {
           {user && (
             <>
               <Topbar />
-              <div className="container"><Sidebar /></div>
+              <div className="container">
+                <Sidebar />
+                <Route path="/users">
+                <UserList />
+              </Route>
+                </div>
             </>
           )}
         </Switch>

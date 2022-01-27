@@ -19,7 +19,7 @@ const UserSchema = new Schema<UserSchemaInterface>(
     profilePic: { type: String, defaut: "" },
     isAdmin: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }  }, 
 );
 
 export const UserModel = model<UserSchemaDocumentInterface>('User', UserSchema)
