@@ -9,6 +9,7 @@ import Topbar from './components/topbar/Topbar'
 import Sidebar from './components/sidebar/Sidebar'
 import { getUsers } from './store/reducers/usersReducer/ActionsCreators'
 import { UserList } from './pages/usersList/UsersList'
+import User from './pages/user/User'
 
 function App() {
   const { user } = useAppSelector((state) => state.authReducer)
@@ -18,7 +19,6 @@ function App() {
     const user = JSON.parse(localStorage.getItem('user') as string)
     if (user) {
       dispatch(setAuthUser(user))
-      console.log(user)
     }
   }, [])
   return (
@@ -33,6 +33,9 @@ function App() {
                 <Sidebar />
                 <Route path="/users">
                 <UserList />
+              </Route>
+              <Route path="/user/:userId">
+                <User />
               </Route>
                 </div>
             </>

@@ -1,19 +1,25 @@
 import { IUser } from '../../../models/IUser'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getUsers } from './ActionsCreators'
+import { getUsers, deleteUser, updateUser, getUser } from './ActionsCreators'
 
 interface UsersState {
   users: Array<IUser> | null | undefined
   isLoading: boolean
   error: string
   isSuccess: boolean
+  updateError: string
+  deleteError: string
+  user: IUser | null
 }
 
 const initialState: UsersState = {
   users: null,
   isLoading: false,
   error: '',
-  isSuccess:false,
+  isSuccess: false,
+  updateError: '',
+  deleteError: '',
+  user: null,
 }
 
 export const usersSlice = createSlice({
@@ -31,13 +37,43 @@ export const usersSlice = createSlice({
       state.error = ''
       state.users = action.payload
     },
-    [getUsers.pending.type]: (state: UsersState ) => {
-        state.isLoading = false
-      },
+    [getUsers.pending.type]: (state: UsersState) => {
+      state.isLoading = false
+    },
     [getUsers.rejected.type]: (state: UsersState, action: PayloadAction<string>) => {
-        state.isLoading = false
-        state.error = action.payload
-      },
+      state.isLoading = false
+      state.error = action.payload
+    },
+    [updateUser.fulfilled.type]: (state: UsersState, action: PayloadAction<IUser>) => {
+      state.users = state.users?.map((item) => {
+        if (item._id === action.payload._id) {
+          return action.payload
+        } else {
+          return item
+        }
+      })
+      state.isSuccess = true
+      state.isLoading = false
+    },
+    [updateUser.pending.type]: (state: UsersState) => {
+      state.isLoading = true
+    },
+    [updateUser.rejected.type]: (state: UsersState, action: PayloadAction<string>) => {
+      state.error = action.payload
+      state.isSuccess = false
+      state.isLoading = false
+    },
+    [getUser.fulfilled.type]: (state: UsersState, action: PayloadAction<IUser>) => {
+      state.user = action.payload
+      state.isLoading = false
+    },
+    [getUser.pending.type]: (state: UsersState) => {
+      state.isLoading = true
+    },
+    [getUser.rejected.type]: (state: UsersState, action: PayloadAction<string>) => {
+      state.error = action.payload
+      state.isLoading = false
+    },
   },
 })
 

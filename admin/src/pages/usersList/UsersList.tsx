@@ -6,18 +6,20 @@ import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks/redux'
 import { useAppSelector } from '../../hooks/redux'
 import { getUsers } from '../../store/reducers/usersReducer/ActionsCreators'
-import { CircularProgress } from '@material-ui/core'
-import { Box } from '@material-ui/core'
-import Alert from '@mui/material/Alert'
-import AlertTitle from '@mui/material/AlertTitle'
-import Stack from '@mui/material/Stack'
 import { formatDate } from '../../helpers/formatDate'
+import { clear } from '../../store/reducers/usersReducer/UsersSlice'
+import { Preloader } from '../../components/preloader/Preloader'
+import { Error } from '../../components/error/Error'
+
 export const UserList: React.FC = () => {
   const { users, error, isLoading } = useAppSelector((state) => state.usersReducer)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getUsers())
+    return () => {
+      dispatch(clear())
+    }
   }, [])
 
   const handleDelete = (id: string) => {}
@@ -29,7 +31,6 @@ export const UserList: React.FC = () => {
       headerName: 'User',
       width: 250,
       renderCell: (params: any) => {
-        console.log(params)
         return <div className="userListUser">{params.row.username}</div>
       },
     },
@@ -66,24 +67,13 @@ export const UserList: React.FC = () => {
       },
     },
   ]
+
   if (error) {
-    return (
-      <div className='usersError'>
-        <Stack spacing={2}>
-          <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
-          {error}
-          </Alert>
-        </Stack>
-      </div>
-    )
+    return <Error error={error}/>
   }
+
   if (isLoading || !users) {
-    return (
-      <Box>
-        <CircularProgress />
-      </Box>
-    )
+    return <Preloader />
   }
 
   return (

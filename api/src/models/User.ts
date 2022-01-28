@@ -6,6 +6,10 @@ export interface UserSchemaInterface {
  email: string
  password: string
  profilePic?: string
+ fullname?: string,
+ phone?: string,
+ birthdate?: string,
+ gender?: "male" | 'female' 
  isAdmin?: boolean
 }
 
@@ -17,6 +21,10 @@ const UserSchema = new Schema<UserSchemaInterface>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profilePic: { type: String, defaut: "" },
+    fullname: { type: String },
+    phone: { type: String},
+    gender: {type: String},
+    birthdate: { type: String},
     isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true, toJSON: { virtuals: true }  }, 
