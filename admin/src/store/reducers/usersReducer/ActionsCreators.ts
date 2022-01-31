@@ -2,6 +2,7 @@ import axios from 'axios'
 import { IUser } from '../../../models/IUser'
 import { getToken } from '../../../helpers/token'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+// import { removeUser, setError } from './UsersSlice'
 
 export const getUsers = createAsyncThunk<Array<IUser>>(
   'users/getUsers',
@@ -64,9 +65,9 @@ export const getUser = createAsyncThunk<IUser, string>(
   },
 )
 
-export const deleteUser = createAsyncThunk<string, string>(
+export const deleteUser = createAsyncThunk(
   'users/deleteUser',
-  async function (id, { rejectWithValue }) {
+  async function (id: string, { rejectWithValue, dispatch }) {
     try {
       let res = await axios({
         method: 'delete',
@@ -75,8 +76,7 @@ export const deleteUser = createAsyncThunk<string, string>(
           token: getToken(),
         },
       })
-      let data = res.data
-      return data
+      return id
     } catch (error) {
       return rejectWithValue(error.response.data)
     }

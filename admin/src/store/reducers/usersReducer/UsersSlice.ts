@@ -1,6 +1,6 @@
 import { IUser } from '../../../models/IUser'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getUsers, deleteUser, updateUser, getUser } from './ActionsCreators'
+import { getUsers, updateUser, getUser, deleteUser } from './ActionsCreators'
 
 interface UsersState {
   users: Array<IUser> | null | undefined
@@ -30,6 +30,13 @@ export const usersSlice = createSlice({
       state.error = ''
       state.isSuccess = false
     },
+    // removeUser(state, action: PayloadAction<string>) {
+    //   //@ts-ignore
+    //   state.users = state.users?.filter(user => user._id != action.payload)
+    // },
+    // setError(state, action: PayloadAction<string>) {
+    //   state.error = action.payload
+    // } 
   },
   extraReducers: {
     [getUsers.fulfilled.type]: (state: UsersState, action: PayloadAction<Array<IUser>>) => {
@@ -74,6 +81,12 @@ export const usersSlice = createSlice({
       state.error = action.payload
       state.isLoading = false
     },
+    [deleteUser.fulfilled.type]: (state: UsersState, action: PayloadAction<string>) => {
+      state.users = state.users?.filter(user => user._id !== action.payload)
+    },
+    [deleteUser.rejected.type]: (state: UsersState, action: PayloadAction<string>) => {
+      state.error = action.payload
+    }
   },
 })
 

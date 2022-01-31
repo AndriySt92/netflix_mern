@@ -5,7 +5,7 @@ import { DeleteOutline } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks/redux'
 import { useAppSelector } from '../../hooks/redux'
-import { getUsers } from '../../store/reducers/usersReducer/ActionsCreators'
+import { deleteUser, getUsers } from '../../store/reducers/usersReducer/ActionsCreators'
 import { formatDate } from '../../helpers/formatDate'
 import { clear } from '../../store/reducers/usersReducer/UsersSlice'
 import { Preloader } from '../../components/preloader/Preloader'
@@ -22,7 +22,9 @@ export const UserList: React.FC = () => {
     }
   }, [])
 
-  const handleDelete = (id: string) => {}
+  const handleDelete = (id: string) => {
+    dispatch(deleteUser(id))
+  }
 
   const columns = [
     { field: '_id', headerName: 'ID', width: 250 },
