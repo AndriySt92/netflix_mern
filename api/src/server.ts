@@ -1,16 +1,24 @@
 import express from 'express'
 import mongoose, { ConnectOptions } from 'mongoose'
 import dotenv from 'dotenv'
+import multer from 'multer'
 import authRoute from './routes/auth'
 import listRoute from './routes/list'
 import movieRoute from './routes/movie'
 import userRoute from './routes/users'
+import uploadImgRoute from './routes/uploadImg'
+dotenv.config()
 
 const app = express()
-dotenv.config()
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 app.use(express.json())
 
-let allowCrossDomain = function (req: express.Request, res: express.Response, next: express.NextFunction) {
+let allowCrossDomain = function (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
   res.header(
@@ -43,6 +51,7 @@ app.use('/api/auth', authRoute)
 app.use('/api/lists', listRoute)
 app.use('/api/movies', movieRoute)
 app.use('/api/users', userRoute)
+app.post('/api/upload', upload.single('img'), uploadImgRoute.upload)
 
 app.listen(port, () => {
   console.log(`server is listening on ${port}`)
