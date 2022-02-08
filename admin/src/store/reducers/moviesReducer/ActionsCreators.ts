@@ -2,6 +2,7 @@ import axios from 'axios'
 import { IMovie } from '../../../models/IMovie'
 import { getToken } from '../../../helpers/token'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { uploadFile } from '../../../helpers/uploadFile'
 
 export const fetchMovies = createAsyncThunk<Array<IMovie>>(
   'movies/fetchMovies',
@@ -45,10 +46,17 @@ export const updateMovie = createAsyncThunk<IMovie, IMovie>(
   },
 )
 
-export const createMovie = createAsyncThunk<IMovie, IMovie>(
+export const createMovie = createAsyncThunk<IMovie, any>(
   'movies/createMovie',
   async function (movieData, { rejectWithValue }) {
     try {
+
+      for (let key in movieData) {
+        if (typeof movieData[key] === 'object' && movieData[key] !== null) {
+          movieData[key] =await uploadFile(movieData[key])
+        }
+      }
+
       let res = await axios({
         method: 'post',
         url: `/api/movies/`,

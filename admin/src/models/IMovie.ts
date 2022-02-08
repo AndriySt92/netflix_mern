@@ -10,5 +10,5 @@ export interface IMovie {
     year: string
     limit: number
     genre: string
-    isSeries: boolean
+    isSerial: boolean
 }

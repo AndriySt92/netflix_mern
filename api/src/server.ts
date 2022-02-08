@@ -51,7 +51,7 @@ app.use('/api/auth', authRoute)
 app.use('/api/lists', listRoute)
 app.use('/api/movies', movieRoute)
 app.use('/api/users', userRoute)
-app.post('/api/upload', upload.single('img'), uploadImgRoute.upload)
+app.post('/api/upload', upload.single('file'), uploadImgRoute.upload)
 
 app.listen(port, () => {
   console.log(`server is listening on ${port}`)

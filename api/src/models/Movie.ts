@@ -11,7 +11,7 @@ interface MovieSchemaInterface extends Document {
   year?: string
   limit?: number
   genre?: string
-  isSeries?: boolean
+  isSerial?: boolean
 }
 
 const MovieSchema = new Schema(
@@ -24,9 +24,9 @@ const MovieSchema = new Schema(
     trailer: { type: String },
     video: { type: String },
     year: { type: String },
-    limit: { type: Number },
+    limit: { type: String },
     genre: { type: String },
-    isSeries: { type: Boolean, default: false },
+    isSerial: { type: Boolean, default: false },
   },
   { timestamps: true },
 )

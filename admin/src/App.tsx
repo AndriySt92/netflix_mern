@@ -10,6 +10,8 @@ import Sidebar from './components/sidebar/Sidebar'
 import { UserList } from './pages/usersList/UsersList'
 import User from './pages/user/User'
 import {MovieList} from './pages/movieList/MovieList'
+import Movie from './pages/movie/Movie'
+import {NewMovie} from './pages/newMovie/NewMovie'
 
 function App() {
   const { user } = useAppSelector((state) => state.authReducer)
@@ -39,6 +41,12 @@ function App() {
                 </Route>
                 <Route path="/movies">
                   <MovieList />
+                </Route>
+                <Route path="/movie/:movieId">
+                  <Movie />
+                </Route>
+                <Route path="/newMovie">
+                  <NewMovie />
                 </Route>
               </div>
             </>

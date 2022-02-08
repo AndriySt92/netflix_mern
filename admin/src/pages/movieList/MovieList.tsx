@@ -53,7 +53,7 @@ export const MovieList: React.FC = () => {
     { field: "genre", headerName: "Genre", width: 200 },
     { field: "year", headerName: "year", width: 200 },
     { field: "limit", headerName: "limit", width: 200 },
-    { field: "isSeries", headerName: "isSeries", width: 200 },
+    { field: "isSerial", headerName: "isSerial", width: 200 },
 
     {
       field: "action",
@@ -76,7 +76,7 @@ export const MovieList: React.FC = () => {
       },
     },
   ]
-
+  debugger
   return (
     <div className="productList">
       <DataGrid
