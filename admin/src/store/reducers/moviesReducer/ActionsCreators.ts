@@ -23,10 +23,20 @@ export const fetchMovies = createAsyncThunk<Array<IMovie>>(
   },
 )
 
-export const updateMovie = createAsyncThunk<IMovie, IMovie>(
+export const updateMovie = createAsyncThunk<IMovie, any>(
   'movies/updateMovie',
   async function (movieData, { rejectWithValue }) {
     try {
+
+      for (let key in movieData) {
+        if (typeof movieData[key] === 'object' && movieData[key] !== null) {
+          movieData[key] = await uploadFile(movieData[key])
+        }
+        if(movieData[key] === '' || movieData[key] === null){
+          delete movieData[key]
+        }
+      }
+
       let res = await axios({
         method: 'put',
         url: `/api/movies/${movieData._id}`,

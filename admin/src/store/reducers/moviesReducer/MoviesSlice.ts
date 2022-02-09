@@ -42,14 +42,15 @@ export const moviesSlice = createSlice({
       state.error = action.payload
     },
     [updateMovie.fulfilled.type]: (state: MoviesState, action: PayloadAction<IMovie>) => {
-      state.movies = state.movies?.map((item) => {
+      state.movies = state.movies ? state.movies.map((item) => {
         if (item._id === action.payload._id) {
           return action.payload
         } else {
           return item
         }
-      })
+      }) : null
       state.isSuccess = true
+      state.movie = action.payload
       state.isLoading = false
     },
     [updateMovie.pending.type]: (state: MoviesState) => {
