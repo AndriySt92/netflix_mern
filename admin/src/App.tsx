@@ -12,6 +12,7 @@ import User from './pages/user/User'
 import {MovieList} from './pages/movieList/MovieList'
 import {Movie} from './pages/movie/Movie'
 import {NewMovie} from './pages/newMovie/NewMovie'
+import { ListList } from './pages/listList/ListList'
 
 function App() {
   const { user } = useAppSelector((state) => state.authReducer)
@@ -47,6 +48,9 @@ function App() {
                 </Route>
                 <Route path="/newMovie">
                   <NewMovie />
+                </Route>
+                <Route path="/lists">
+                  <ListList />
                 </Route>
               </div>
             </>
