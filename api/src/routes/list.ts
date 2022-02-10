@@ -20,6 +20,43 @@ router.post("/", verify, async (req: IGetUserAuthInfoRequest, res: express.Respo
   }
 });
 
+
+//Update
+//@ts-ignore
+router.put("/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
+  if (req.user.isAdmin) {
+    try {
+      const updatedList = await ListModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedList);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
+//GET by ID
+//@ts-ignore
+router.get("/find/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
+  if (req.user.isAdmin) {
+  try {
+    const list = await ListModel.findById(req.params.id);
+    res.status(200).json(list);
+  } catch (err) {
+    res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
 //DELETE
 //@ts-ignore
 router.delete("/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
