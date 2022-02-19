@@ -1,6 +1,6 @@
 import { IUser } from '../../../models/IUser'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { fetchLists, updateList, fetchList, deleteList, createList } from './ActionsCreators'
+import { addMovie, fetchLists, updateList, fetchList, deleteList, createList, fetchMovie } from './ActionsCreators'
 import { IMovie } from '../../../models/IMovie'
 import { IList } from '../../../models/IList'
 
@@ -10,6 +10,7 @@ interface ListsState {
   error: string
   isSuccess: boolean
   list: IList | null
+  listMovies: [] | Array<IMovie>
 }
 
 const initialState: ListsState = {
@@ -18,6 +19,7 @@ const initialState: ListsState = {
   error: '',
   isSuccess: false,
   list: null,
+  listMovies: []
 }
 
 export const listsSlice = createSlice({
@@ -90,6 +92,24 @@ export const listsSlice = createSlice({
     [createList.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
       state.error = action.payload
       state.isLoading = false
+    },
+    [fetchMovie.fulfilled.type]: (state: ListsState, action: PayloadAction<IMovie>) => {
+      state.listMovies = [...state.listMovies, action.payload]
+      state.isSuccess = true
+      state.isLoading = false
+    },
+    [fetchMovie.pending.type]: (state: ListsState) => {
+      state.isLoading = true
+    },
+    [fetchMovie.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
+      state.error = action.payload
+      state.isLoading = false
+    },
+    [addMovie.fulfilled.type]: (state: ListsState, action: PayloadAction<string>) => {
+      state.list?.content.push(action.payload)
+    },
+    [addMovie.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
+      state.error = action.payload
     },
   },
 })

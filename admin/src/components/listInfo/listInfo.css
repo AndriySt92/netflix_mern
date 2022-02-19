@@ -1,0 +1,18 @@
+.listInfo {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+.listInfoItem {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 20px;
+}
+
+.listInfoItem > label {
+  color: gray;
+  font-weight: 600;
+  margin-bottom: 10px;
+}

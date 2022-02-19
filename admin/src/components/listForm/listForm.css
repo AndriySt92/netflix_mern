@@ -1,0 +1,67 @@
+.addProductForm {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .addProductItem {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding: 20px;
+  }
+  
+  .addProductItem > label {
+    color: gray;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .addProductItem textarea {
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.42) !important;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.1876em;
+    padding: 6px 0 7px;
+    outline: none;
+    resize: none;
+    height: 18px;
+  }
+  
+  .addProductItem textarea::placeholder {
+    color: rgb(162 162 162);
+  }
+  
+  .addProductItem desc {
+    margin-bottom: 9px;
+  }
+  
+  .addProductItem > input {
+    padding: 10px;
+  }
+  
+  .addProductItem > select {
+    padding: 10px;
+  }
+  
+  .addProductButton {
+    margin-top: 10px;
+    padding: 7px 10px;
+    font-weight: 600;
+    align-self: center;
+  }
+  .productFormAlert {
+    max-width: fit-content;
+    margin: 0px auto;
+  }
+  .productTop .MuiDataGrid-root .MuiDataGrid-window{
+    overflow-x: hidden;
+  }
+  .productTop .MuiDataGrid-root{
+    height: 630px;
+    max-width: 100%;
+  }
+  

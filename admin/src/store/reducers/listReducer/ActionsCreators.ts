@@ -3,6 +3,7 @@ import { getToken } from '../../../helpers/token'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { uploadFile } from '../../../helpers/uploadFile'
 import { IList } from '../../../models/IList'
+import { IMovie } from '../../../models/IMovie'
 
 export const fetchLists = createAsyncThunk<Array<IList>>(
   'lists/fetchLists',
@@ -102,6 +103,44 @@ export const deleteList = createAsyncThunk<string, string>(
         },
       })
       return id
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  },
+)
+
+export const fetchMovie = createAsyncThunk<IMovie, string>(
+  'lists/fetchMovie',
+  async function (id, { rejectWithValue }) {
+    try {
+      let res = await axios({
+        method: 'get',
+        url: `/api/movies/find/${id}`,
+        headers: {
+          token: getToken(),
+        },
+      })
+      let data = res.data
+      return data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  },
+)
+
+export const addMovie = createAsyncThunk<string, {id: string, listId: string}>(
+  'lists/addMovie',
+  async function (dataId, { rejectWithValue }) {
+    try {
+      let res = await axios({
+        method: 'put',
+        url: `/api/lists/${dataId.listId}`,
+        headers: {
+          token: getToken(),
+        },
+      })
+      let data = res.data
+      return data
     } catch (error) {
       return rejectWithValue(error.response.data)
     }
