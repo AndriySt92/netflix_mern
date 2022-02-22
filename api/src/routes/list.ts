@@ -42,6 +42,48 @@ router.put("/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Res
   }
 });
 
+//AddMovie
+//@ts-ignore
+router.put("/addMovie/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
+
+  if (req.user.isAdmin) {
+    try {
+        await ListModel.findByIdAndUpdate(
+        req.params.id,
+        { $push: { content: req.body.id } }
+     )
+
+      res.status(200).json(req.body.id);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
+//DeleteMovie
+//@ts-ignore
+router.put("/deleteMovie/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
+
+  if (req.user.isAdmin) {
+    try {
+        await ListModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          $pull: { content: { $in: [ req.body.id] } },
+        }
+     )
+
+      res.status(200).json(req.body.id);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
 //GET by ID
 //@ts-ignore
 router.get("/find/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
