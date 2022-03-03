@@ -1,6 +1,14 @@
-import { IUser } from '../../../models/IUser'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { addMovie, fetchLists, updateList, fetchList, deleteList, createList, fetchMovie } from './ActionsCreators'
+import {
+  addContent,
+  deleteContent,
+  fetchLists,
+  updateList,
+  fetchList,
+  deleteList,
+  createList,
+  fetchMovie,
+} from './ActionsCreators'
 import { IMovie } from '../../../models/IMovie'
 import { IList } from '../../../models/IList'
 
@@ -19,7 +27,7 @@ const initialState: ListsState = {
   error: '',
   isSuccess: false,
   list: null,
-  listMovies: []
+  listMovies: [],
 }
 
 export const listsSlice = createSlice({
@@ -56,13 +64,15 @@ export const listsSlice = createSlice({
       state.isLoading = false
     },
     [updateList.fulfilled.type]: (state: ListsState, action: PayloadAction<IList>) => {
-      state.lists = state.lists ? state.lists.map((item) => {
-        if (item._id === action.payload._id) {
-          return action.payload
-        } else {
-          return item
-        }
-      }) : null
+      state.lists = state.lists
+        ? state.lists.map((item) => {
+            if (item._id === action.payload._id) {
+              return action.payload
+            } else {
+              return item
+            }
+          })
+        : null
       state.isSuccess = true
       state.list = action.payload
       state.isLoading = false
@@ -76,7 +86,7 @@ export const listsSlice = createSlice({
       state.isLoading = false
     },
     [deleteList.fulfilled.type]: (state: ListsState, action: PayloadAction<string>) => {
-      state.lists = state.lists?.filter(list => list._id !== action.payload)
+      state.lists = state.lists?.filter((list) => list._id !== action.payload)
     },
     [deleteList.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
       state.error = action.payload
@@ -94,21 +104,29 @@ export const listsSlice = createSlice({
       state.isLoading = false
     },
     [fetchMovie.fulfilled.type]: (state: ListsState, action: PayloadAction<IMovie>) => {
-      state.listMovies = [...state.listMovies, action.payload]
-      state.isSuccess = true
-      state.isLoading = false
-    },
-    [fetchMovie.pending.type]: (state: ListsState) => {
-      state.isLoading = true
+      if (action.payload) {
+        state.listMovies = [...state.listMovies, action.payload]
+        state.isSuccess = true
+      }
     },
     [fetchMovie.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
       state.error = action.payload
-      state.isLoading = false
     },
-    [addMovie.fulfilled.type]: (state: ListsState, action: PayloadAction<string>) => {
-      state.list?.content.push(action.payload)
+    [addContent.fulfilled.type]: (state: ListsState, action: PayloadAction<string>) => {
+      if (state.list) {
+        state.list.content = [...state.list.content, action.payload]
+      }
     },
-    [addMovie.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
+    [addContent.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
+      state.error = action.payload
+    },
+    [deleteContent.fulfilled.type]: (state: ListsState, action: PayloadAction<string>) => {
+      if (state.list) {
+        state.list.content = state.list.content.filter((movieId) => movieId !== action.payload)
+      }
+      state.listMovies = state.listMovies.filter((movie) => movie._id !== action.payload)
+    },
+    [deleteContent.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
       state.error = action.payload
     },
   },

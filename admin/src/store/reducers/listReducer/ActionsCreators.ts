@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { getToken } from '../../../helpers/token'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { uploadFile } from '../../../helpers/uploadFile'
 import { IList } from '../../../models/IList'
 import { IMovie } from '../../../models/IMovie'
+
 
 export const fetchLists = createAsyncThunk<Array<IList>>(
   'lists/fetchLists',
@@ -27,12 +27,12 @@ export const fetchLists = createAsyncThunk<Array<IList>>(
 export const updateList = createAsyncThunk<IList, any>(
   'lists/updateList',
   async function (listData, { rejectWithValue }) {
+    const {_id, ...restData} = listData
     try {
-
       let res = await axios({
         method: 'put',
-        url: `/api/lists/${listData._id}`,
-        data: listData,
+        url: `/api/lists/${_id}`,
+        data: restData,
         headers: {
           token: getToken(),
         },
@@ -52,7 +52,6 @@ export const createList = createAsyncThunk<IList, IList>(
   'lists/createList',
   async function (listData, { rejectWithValue }) {
     try {
-
       let res = await axios({
         method: 'post',
         url: `/api/lists/`,
@@ -109,9 +108,14 @@ export const deleteList = createAsyncThunk<string, string>(
   },
 )
 
-export const fetchMovie = createAsyncThunk<IMovie, string>(
+export const fetchMovie = createAsyncThunk<IMovie | null, string>(
   'lists/fetchMovie',
-  async function (id, { rejectWithValue }) {
+  async function (id, { rejectWithValue, getState }) {
+    const state = getState()
+    //@ts-ignore
+    const listMovies = state.listsReducer.listMovies
+    const movies = listMovies.filter((movie: IMovie) => movie._id === id)
+    if(movies.length > 0) return
     try {
       let res = await axios({
         method: 'get',
@@ -128,19 +132,40 @@ export const fetchMovie = createAsyncThunk<IMovie, string>(
   },
 )
 
-export const addMovie = createAsyncThunk<string, {id: string, listId: string}>(
-  'lists/addMovie',
+export const addContent = createAsyncThunk<string, {id: string, listId: string}>(
+  'lists/addContent',
   async function (dataId, { rejectWithValue }) {
     try {
+     
       let res = await axios({
         method: 'put',
-        url: `/api/lists/${dataId.listId}`,
+        url: `/api/lists/addMovie/${dataId.listId}`,
+        data: {id: dataId.id},
         headers: {
           token: getToken(),
         },
       })
-      let data = res.data
-      return data
+    
+     return res.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  },
+)
+
+export const deleteContent = createAsyncThunk<void, {id: string, listId: string}>(
+  'lists/deleteContent',
+  async function (dataId, { rejectWithValue }) {
+    try {
+      let res = await axios({
+        method: 'put',
+        url: `/api/lists/deleteMovie/${dataId.listId}`,
+        data: {id: dataId.id},
+        headers: {
+          token: getToken(),
+        },
+      })
+      return res.data
     } catch (error) {
       return rejectWithValue(error.response.data)
     }

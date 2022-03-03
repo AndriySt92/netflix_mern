@@ -7,8 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import {
   createMovie,
   fetchMovies,
-  updateMovie,
 } from '../../store/reducers/moviesReducer/ActionsCreators'
+import {
+  updateList,
+} from '../../store/reducers/listReducer/ActionsCreators'
 import { Preloader } from '../preloader/Preloader'
 import { Error } from '../error/Error'
 import { clear } from '../../store/reducers/moviesReducer/MoviesSlice'
@@ -52,13 +54,20 @@ export const ListForm: React.FC<ListFormProps> = React.memo(({ text, list }) => 
       title,
       genre,
       type,
-      content,
     }
     if (text === 'update') {
       const _id = list?._id
-      dispatch(updateMovie({ ...listData, _id }))
+      dispatch(updateList({ ...listData, content, _id }))
     } else if (text === 'create') {
       dispatch(createMovie(listData))
+    }
+  }
+
+  const handleContent = (id: string, method: string) => {
+    if(method === 'delete'){
+      setContent(content.filter(movieId => movieId !== id))
+    } else if (method === 'add'){
+      setContent([...content, id])
     }
   }
 
@@ -116,7 +125,7 @@ export const ListForm: React.FC<ListFormProps> = React.memo(({ text, list }) => 
           </Button>
         </div>
       </form>
-      <MovieTable movies={movies} actionType="add" list={list} />
+      <MovieTable movies={movies} actionType="add" list={list} handleContent={handleContent} />
     </>
   )
 })

@@ -6,26 +6,39 @@ import { Done } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks/redux'
 import { deleteMovie } from '../../store/reducers/moviesReducer/ActionsCreators'
+import { addContent, deleteContent } from '../../store/reducers/listReducer/ActionsCreators'
 import { IMovie } from '../../models/IMovie'
 import { Add } from '@material-ui/icons'
 import { IList } from '../../models/IList'
-import { addMovie } from '../../store/reducers/listReducer/ActionsCreators'
 
 interface MovieTableProps {
   movies: Array<IMovie> | null | undefined
   actionType: 'edit' | 'add'
   list?: IList
+  handleContent?: (id: string, method: string ) => void;
 }
 
-export const MovieTable: React.FC<MovieTableProps> = React.memo(({ movies, actionType, list }) => {
+export const MovieTable: React.FC<MovieTableProps> = React.memo(({ movies, actionType, list, handleContent }) => {
   const dispatch = useAppDispatch()
-
   const handleDelete = (id: string) => {
     dispatch(deleteMovie(id))
   }
-  const handleAddMovie = (id: string) => {
+
+  const handleAddContent = (id: string) => {
     if (list) {
-      dispatch(addMovie({ id, listId: list?._id }))
+      dispatch(addContent({ id, listId: list?._id }))
+      if(handleContent){
+        handleContent(id, 'add')
+      }
+    }
+  }
+
+  const handleDeleteContent = (id: string) => {
+    if (list) {
+      dispatch(deleteContent({ id, listId: list?._id }))
+      if(handleContent){
+        handleContent(id, 'delete')
+      }
     }
   }
 
@@ -71,11 +84,11 @@ export const MovieTable: React.FC<MovieTableProps> = React.memo(({ movies, actio
                 <Done className="productListDone" />{' '}
                 <DeleteOutline
                   className="productListDelete"
-                  onClick={() => handleDelete(params.row._id)}
+                  onClick={() => handleDeleteContent(params.row._id)}
                 />
               </>
             ) : (
-              <Add onClick={() => handleAddMovie(params.row._id)} />
+              <Add onClick={() => handleAddContent(params.row._id)} />
             )}
           </>
         )
@@ -84,7 +97,7 @@ export const MovieTable: React.FC<MovieTableProps> = React.memo(({ movies, actio
   ]
   return (
     <>
-      {movies && (
+      {movies && movies.length > 0 ? (
         <DataGrid
           rows={movies}
           disableSelectionOnClick
@@ -93,7 +106,7 @@ export const MovieTable: React.FC<MovieTableProps> = React.memo(({ movies, actio
           checkboxSelection
           getRowId={(r) => r._id}
         />
-      )}
+      ) : <div className='noContent'>No movies in {list?.title}</div>}
     </>
   )
 })
