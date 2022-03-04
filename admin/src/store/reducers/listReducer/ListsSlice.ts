@@ -37,7 +37,12 @@ export const listsSlice = createSlice({
     clear(state) {
       state.error = ''
       state.isSuccess = false
+      state.list = null
+      state.listMovies = []
     },
+    clearSuccess(state) {
+      state.isSuccess = false
+    }
   },
   extraReducers: {
     [fetchLists.fulfilled.type]: (state: ListsState, action: PayloadAction<Array<IList>>) => {
@@ -93,6 +98,7 @@ export const listsSlice = createSlice({
     },
     [createList.fulfilled.type]: (state: ListsState, action: PayloadAction<IList>) => {
       state.lists?.push(action.payload)
+      state.list = action.payload
       state.isSuccess = true
       state.isLoading = false
     },
@@ -106,7 +112,6 @@ export const listsSlice = createSlice({
     [fetchMovie.fulfilled.type]: (state: ListsState, action: PayloadAction<IMovie>) => {
       if (action.payload) {
         state.listMovies = [...state.listMovies, action.payload]
-        state.isSuccess = true
       }
     },
     [fetchMovie.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
@@ -132,5 +137,5 @@ export const listsSlice = createSlice({
   },
 })
 
-export const { clear } = listsSlice.actions
+export const { clear, clearSuccess } = listsSlice.actions
 export default listsSlice.reducer

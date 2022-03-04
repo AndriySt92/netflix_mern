@@ -4,16 +4,11 @@ import { InputLabel, Snackbar, TextField } from '@material-ui/core'
 import Button from '@mui/material/Button'
 import { Alert } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import {
-  createMovie,
-  fetchMovies,
-} from '../../store/reducers/moviesReducer/ActionsCreators'
-import {
-  updateList,
-} from '../../store/reducers/listReducer/ActionsCreators'
+import { fetchMovies } from '../../store/reducers/moviesReducer/ActionsCreators'
+import { createList, updateList } from '../../store/reducers/listReducer/ActionsCreators'
 import { Preloader } from '../preloader/Preloader'
 import { Error } from '../error/Error'
-import { clear } from '../../store/reducers/moviesReducer/MoviesSlice'
+import { clear, clearSuccess } from '../../store/reducers/listReducer/ListsSlice'
 import { IList } from '../../models/IList'
 import { MovieTable } from '../movieTable/MovieTable'
 
@@ -23,7 +18,8 @@ interface ListFormProps {
 }
 export const ListForm: React.FC<ListFormProps> = React.memo(({ text, list }) => {
   const dispatch = useAppDispatch()
-  const { isLoading, error, isSuccess, movies } = useAppSelector((state) => state.moviesReducer)
+  const { error, isLoading, movies } = useAppSelector((state) => state.moviesReducer)
+  const { isSuccess } = useAppSelector((state) => state.listsReducer)
   const [title, setTitle] = useState<string>(list?.title || '')
   const [type, setType] = useState<string>(list?.type || '')
   const [genre, setGenre] = useState<string>(list?.genre || '')
@@ -34,14 +30,17 @@ export const ListForm: React.FC<ListFormProps> = React.memo(({ text, list }) => 
     if (!movies) {
       dispatch(fetchMovies())
     }
+    return () => {
+      dispatch(clear())
+    }
   }, [])
 
   useEffect(() => {
     if (isSuccess === true) {
       setOpen(true)
       setTimeout(() => {
-        dispatch(clear())
-      }, 3000)
+        dispatch(clearSuccess())
+      }, 5000)
     } else {
       setOpen(false)
     }
@@ -59,14 +58,14 @@ export const ListForm: React.FC<ListFormProps> = React.memo(({ text, list }) => 
       const _id = list?._id
       dispatch(updateList({ ...listData, content, _id }))
     } else if (text === 'create') {
-      dispatch(createMovie(listData))
+      dispatch(createList(listData as IList))
     }
   }
 
   const handleContent = (id: string, method: string) => {
-    if(method === 'delete'){
-      setContent(content.filter(movieId => movieId !== id))
-    } else if (method === 'add'){
+    if (method === 'delete') {
+      setContent(content.filter((movieId) => movieId !== id))
+    } else if (method === 'add') {
       setContent([...content, id])
     }
   }
@@ -125,7 +124,9 @@ export const ListForm: React.FC<ListFormProps> = React.memo(({ text, list }) => 
           </Button>
         </div>
       </form>
-      <MovieTable movies={movies} actionType="add" list={list} handleContent={handleContent} />
+      {list && (
+        <MovieTable movies={movies} actionType="add" list={list} handleContent={handleContent} />
+      )}
     </>
   )
 })

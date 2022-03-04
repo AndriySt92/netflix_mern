@@ -1,0 +1,18 @@
+.addList {
+  margin: 0px 20px;
+  width: 100%;
+}
+.addList .addProductForm {
+  display: flex;
+  justify-content: center;
+}
+
+.addList .MuiDataGrid-root {
+  margin: 0px auto;
+  max-width: 85%;
+}
+
+.addList .MuiDataGrid-root .MuiDataGrid-window {
+  margin: 0px 20px;
+  overflow-x: hidden;
+}

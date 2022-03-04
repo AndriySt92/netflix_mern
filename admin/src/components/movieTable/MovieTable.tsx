@@ -16,9 +16,10 @@ interface MovieTableProps {
   actionType: 'edit' | 'add'
   list?: IList
   handleContent?: (id: string, method: string ) => void;
+  justDisplay?: boolean
 }
 
-export const MovieTable: React.FC<MovieTableProps> = React.memo(({ movies, actionType, list, handleContent }) => {
+export const MovieTable: React.FC<MovieTableProps> = React.memo(({ justDisplay, movies, actionType, list, handleContent }) => {
   const dispatch = useAppDispatch()
   const handleDelete = (id: string) => {
     dispatch(deleteMovie(id))
@@ -74,10 +75,10 @@ export const MovieTable: React.FC<MovieTableProps> = React.memo(({ movies, actio
                 <Link to={{ pathname: '/movie/' + params.row._id, movie: params.row }}>
                   <button className="productListEdit">Edit</button>
                 </Link>
-                <DeleteOutline
+                {!justDisplay && <DeleteOutline
                   className="productListDelete"
                   onClick={() => handleDelete(params.row._id)}
-                />
+                />}
               </>
             ) : list?.content.includes(params.row._id) ? (
               <>

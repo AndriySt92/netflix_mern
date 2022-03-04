@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './list.css'
 import { Link, useParams } from 'react-router-dom'
-import { clear } from '../../store/reducers/usersReducer/UsersSlice'
+import { clear } from '../../store/reducers/listReducer/ListsSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import { useAppSelector } from '../../hooks/redux'
 import { fetchList } from '../../store/reducers/listReducer/ActionsCreators'
@@ -24,9 +24,6 @@ export const List: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchList(listId))
-    return () => {
-      dispatch(clear())
-    }
   }, [])
 
   useEffect(() => {
