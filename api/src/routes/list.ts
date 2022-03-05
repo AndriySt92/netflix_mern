@@ -142,4 +142,26 @@ router.get("/", verify, async (req: express.Request, res: express.Response): Pro
   }
 });
 
+//GET LIST STATS
+router.get('/stats', async (_: any, res: express.Response) => {
+  try {
+    const data = await ListModel.aggregate([
+      {
+        $project: {
+          month: { $month: '$createdAt' },
+        },
+      },
+      {
+        $group: {
+          _id: '$month',
+          total: { $sum: 1 },
+        },
+      },
+    ])
+    res.status(200).json(data)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
+
 export default router;
