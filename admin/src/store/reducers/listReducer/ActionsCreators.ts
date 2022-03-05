@@ -4,6 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IList } from '../../../models/IList'
 import { IMovie } from '../../../models/IMovie'
 import { RootState } from '../../store'
+import { DataStats } from '../../../components/chart/Chart'
 
 export const fetchLists = createAsyncThunk<Array<IList>>(
   'lists/fetchLists',
@@ -169,3 +170,22 @@ export const deleteContent = createAsyncThunk<void, { id: string; listId: string
     }
   },
 )
+
+export const fetchListStats = createAsyncThunk<Array<DataStats>>(
+  'lists/fetchListStats',
+  async function (_, { rejectWithValue }) {
+    try {
+      let res = await axios({
+        method: 'get',
+        url: `/api/lists/stats`,
+        headers: {
+          token: getToken(),
+        },
+      })
+      return res.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  },
+)
+

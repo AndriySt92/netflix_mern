@@ -2,6 +2,7 @@ import axios from 'axios'
 import { IUser } from '../../../models/IUser'
 import { getToken } from '../../../helpers/token'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { DataStats } from '../../../components/chart/Chart'
 // import { removeUser, setError } from './UsersSlice'
 
 export const getUsers = createAsyncThunk<Array<IUser>>(
@@ -77,6 +78,24 @@ export const deleteUser = createAsyncThunk(
         },
       })
       return id
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  },
+)
+
+export const fetchUserStats = createAsyncThunk<Array<DataStats>>(
+  'users/fetchUsersStat',
+  async function (_, { rejectWithValue }) {
+    try {
+      let res = await axios({
+        method: 'get',
+        url: `/api/users/stats`,
+        headers: {
+          token: getToken(),
+        },
+      })
+      return res.data
     } catch (error) {
       return rejectWithValue(error.response.data)
     }

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import {
+  fetchListStats,
   addContent,
   deleteContent,
   fetchLists,
@@ -11,6 +12,7 @@ import {
 } from './ActionsCreators'
 import { IMovie } from '../../../models/IMovie'
 import { IList } from '../../../models/IList'
+import { DataStats } from '../../../components/chart/Chart'
 
 interface ListsState {
   lists: Array<IList> | null | undefined
@@ -19,6 +21,8 @@ interface ListsState {
   isSuccess: boolean
   list: IList | null
   listMovies: [] | Array<IMovie>
+  listStats: Array<DataStats> | null
+  isLoadingListStats: boolean
 }
 
 const initialState: ListsState = {
@@ -28,6 +32,8 @@ const initialState: ListsState = {
   isSuccess: false,
   list: null,
   listMovies: [],
+  listStats: null,
+  isLoadingListStats: false
 }
 
 export const listsSlice = createSlice({
@@ -133,6 +139,17 @@ export const listsSlice = createSlice({
     },
     [deleteContent.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
       state.error = action.payload
+    },
+    [fetchListStats.fulfilled.type]: (state: ListsState, action: PayloadAction<Array<DataStats>>) => {
+      state.listStats = action.payload
+      state.isLoadingListStats = false
+    },
+    [fetchListStats.pending.type]: (state: ListsState) => {
+      state.isLoadingListStats = true
+    },
+    [fetchListStats.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
+      state.error = action.payload
+      state.isLoadingListStats = false
     },
   },
 })

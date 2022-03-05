@@ -1,6 +1,6 @@
 import { IUser } from '../../../models/IUser'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getUsers, updateUser, getUser, deleteUser } from './ActionsCreators'
+import { fetchUserStats, getUsers, updateUser, getUser, deleteUser } from './ActionsCreators'
 
 interface UsersState {
   users: Array<IUser> | null | undefined
@@ -10,6 +10,8 @@ interface UsersState {
   updateError: string
   deleteError: string
   user: IUser | null
+  userStats: Array<{_id: string, total: string}> | null
+  isLoadingUserStats: boolean
 }
 
 const initialState: UsersState = {
@@ -20,6 +22,8 @@ const initialState: UsersState = {
   updateError: '',
   deleteError: '',
   user: null,
+  userStats: null,
+  isLoadingUserStats: false
 }
 
 export const usersSlice = createSlice({
@@ -29,14 +33,7 @@ export const usersSlice = createSlice({
     clear(state) {
       state.error = ''
       state.isSuccess = false
-    },
-    // removeUser(state, action: PayloadAction<string>) {
-    //   //@ts-ignore
-    //   state.users = state.users?.filter(user => user._id != action.payload)
-    // },
-    // setError(state, action: PayloadAction<string>) {
-    //   state.error = action.payload
-    // } 
+    }, 
   },
   extraReducers: {
     [getUsers.fulfilled.type]: (state: UsersState, action: PayloadAction<Array<IUser>>) => {
@@ -86,7 +83,18 @@ export const usersSlice = createSlice({
     },
     [deleteUser.rejected.type]: (state: UsersState, action: PayloadAction<string>) => {
       state.error = action.payload
-    }
+    },
+    [fetchUserStats.fulfilled.type]: (state: UsersState, action: PayloadAction<Array<{_id: string, total: string}>>) => {
+      state.userStats = action.payload
+      state.isLoadingUserStats = false
+    },
+    [fetchUserStats.pending.type]: (state: UsersState) => {
+      state.isLoadingUserStats = true
+    },
+    [fetchUserStats.rejected.type]: (state: UsersState, action: PayloadAction<string>) => {
+      state.error = action.payload
+      state.isLoadingUserStats = false
+    },
   },
 })
 

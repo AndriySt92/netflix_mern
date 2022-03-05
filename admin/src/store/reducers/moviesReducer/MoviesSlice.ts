@@ -1,7 +1,8 @@
 import { IUser } from '../../../models/IUser'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { fetchMovies, updateMovie, fetchMovie, deleteMovie, createMovie } from './ActionsCreators'
+import { fetchMovieStats, fetchMovies, updateMovie, fetchMovie, deleteMovie, createMovie } from './ActionsCreators'
 import { IMovie } from '../../../models/IMovie'
+import { DataStats } from '../../../components/chart/Chart'
 
 interface MoviesState {
   movies: Array<IMovie> | null | undefined
@@ -9,6 +10,8 @@ interface MoviesState {
   error: string
   isSuccess: boolean
   movie: IMovie | null
+  movieStats: Array<DataStats> | null
+  isLoadingMovieStats: boolean
 }
 
 const initialState: MoviesState = {
@@ -17,6 +20,8 @@ const initialState: MoviesState = {
   error: '',
   isSuccess: false,
   movie: null,
+  movieStats: null,
+  isLoadingMovieStats: false
 }
 
 export const moviesSlice = createSlice({
@@ -89,6 +94,17 @@ export const moviesSlice = createSlice({
     [createMovie.rejected.type]: (state: MoviesState, action: PayloadAction<string>) => {
       state.error = action.payload
       state.isLoading = false
+    },
+    [fetchMovieStats.fulfilled.type]: (state: MoviesState, action: PayloadAction<Array<DataStats>>) => {
+      state.movieStats = action.payload
+      state.isLoadingMovieStats = false
+    },
+    [fetchMovieStats.pending.type]: (state: MoviesState) => {
+      state.isLoadingMovieStats = true
+    },
+    [fetchMovieStats.rejected.type]: (state: MoviesState, action: PayloadAction<string>) => {
+      state.error = action.payload
+      state.isLoadingMovieStats = false
     },
   },
 })
