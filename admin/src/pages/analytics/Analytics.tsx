@@ -34,6 +34,7 @@ export const Analytics = () => {
       <Chart title="User Analytics" data={userStats} dataKey="Users total count" />
       <Chart title="Movie Analytics" data={movieStats} dataKey="Moives total count" />
       <Chart title="List Analytics" data={listStats} dataKey="Lists total count" />
+      
     </div>
   )
 }

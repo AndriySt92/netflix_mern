@@ -4,6 +4,10 @@
     width: 100%;
 }
 
+.productList .MuiDataGrid-root .MuiDataGrid-window{
+  overflow-x: hidden;
+}
+
 .productListItem{
     display: flex;
     align-items: center;

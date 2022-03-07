@@ -29,7 +29,7 @@ export const MovieList: React.FC = () => {
 
   return (
     <div className="productList">
-      <MovieTable movies={movies} actionType="edit" />
+      <MovieTable pageSize={15} movies={movies} actionType="edit" />
     </div>
   )
 }

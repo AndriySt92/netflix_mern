@@ -125,7 +125,7 @@ export const ListForm: React.FC<ListFormProps> = React.memo(({ text, list }) => 
         </div>
       </form>
       {list && (
-        <MovieTable movies={movies} actionType="add" list={list} handleContent={handleContent} />
+        <MovieTable pageSize={10} movies={movies} actionType="add" list={list} handleContent={handleContent} />
       )}
     </>
   )

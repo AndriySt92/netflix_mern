@@ -1,4 +1,10 @@
 
+.moviesTable {
+    height: 880px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
 .productListEdit{
     border: none;
     border-radius: 10px;

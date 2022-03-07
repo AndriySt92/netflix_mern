@@ -16,6 +16,7 @@ import { ListList } from './pages/listList/ListList'
 import { List } from './pages/list/List'
 import { AddList } from './pages/addList/AddList'
 import { Analytics } from './pages/analytics/Analytics'
+import Home from './pages/home/Home'
 
 function App() {
   const { user } = useAppSelector((state) => state.authReducer)
@@ -63,6 +64,9 @@ function App() {
                 </Route>
                 <Route path="/usersStats">
                   <Analytics />
+                </Route>
+                <Route exact path="/">
+                  <Home />
                 </Route>
               </div>
             </>

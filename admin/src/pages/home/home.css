@@ -1,0 +1,32 @@
+.home {
+  overflow-x: hidden;
+}
+.homeContent {
+  display: flex;
+}
+.homeTable {
+  width: 52vw;
+  height: 318px;
+}
+
+.homeTable .MuiDataGrid-root {
+  width: 50vw;
+  height: 33vh;
+  margin-top: 20px;
+}
+.homeTable .moviesTable {
+  height: 320px;
+  display: block;
+}
+
+.homeTable .listsTable {
+  height: 320px;
+  display: block;
+}
+.homeAnalitycs .userAnalytics .chart {
+  width: 45vw;
+}
+
+.homeTable .MuiDataGrid-root .MuiDataGrid-window{
+  overflow-x: visible;
+}

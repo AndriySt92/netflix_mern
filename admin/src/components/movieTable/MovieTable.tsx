@@ -17,9 +17,10 @@ interface MovieTableProps {
   list?: IList
   handleContent?: (id: string, method: string ) => void;
   justDisplay?: boolean
+  pageSize: number
 }
 
-export const MovieTable: React.FC<MovieTableProps> = React.memo(({ justDisplay, movies, actionType, list, handleContent }) => {
+export const MovieTable: React.FC<MovieTableProps> = React.memo(({pageSize, justDisplay, movies, actionType, list, handleContent }) => {
   const dispatch = useAppDispatch()
   const handleDelete = (id: string) => {
     dispatch(deleteMovie(id))
@@ -97,17 +98,17 @@ export const MovieTable: React.FC<MovieTableProps> = React.memo(({ justDisplay, 
     },
   ]
   return (
-    <>
+    <div className='moviesTable'>
       {movies && movies.length > 0 ? (
         <DataGrid
           rows={movies}
           disableSelectionOnClick
           columns={columns}
-          pageSize={10}
+          pageSize={pageSize}
           checkboxSelection
           getRowId={(r) => r._id}
         />
       ) : <div className='noContent'>No movies in {list?.title}</div>}
-    </>
+    </div>
   )
 })

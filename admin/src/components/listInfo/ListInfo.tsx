@@ -27,7 +27,7 @@ export const ListInfo: React.FC<ListFormProps> = React.memo(({list, movies}) => 
           {list.genre}
         </div>
       </div>
-      <MovieTable movies={movies} actionType="edit" list={list} justDisplay={true}  />
+      <MovieTable pageSize={10} movies={movies} actionType="edit" list={list} justDisplay={true}  />
     </div>
   )
 })
