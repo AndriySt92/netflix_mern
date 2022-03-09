@@ -23,8 +23,12 @@
   height: 320px;
   display: block;
 }
-.homeAnalitycs .userAnalytics .chart {
+.homeAnalitycs .analytics .chart {
   width: 45vw;
+}
+
+.homeAnalitycs .analytics .statsTable {
+  width: 89%;
 }
 
 .homeTable .MuiDataGrid-root .MuiDataGrid-window{

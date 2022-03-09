@@ -16,11 +16,11 @@ interface MovieTableProps {
   actionType: 'edit' | 'add'
   list?: IList
   handleContent?: (id: string, method: string ) => void;
-  justDisplay?: boolean
+  withoutAction?: boolean
   pageSize: number
 }
 
-export const MovieTable: React.FC<MovieTableProps> = React.memo(({pageSize, justDisplay, movies, actionType, list, handleContent }) => {
+export const MovieTable: React.FC<MovieTableProps> = React.memo(({pageSize, withoutAction, movies, actionType, list, handleContent }) => {
   const dispatch = useAppDispatch()
   const handleDelete = (id: string) => {
     dispatch(deleteMovie(id))
@@ -76,10 +76,10 @@ export const MovieTable: React.FC<MovieTableProps> = React.memo(({pageSize, just
                 <Link to={{ pathname: '/movie/' + params.row._id, movie: params.row }}>
                   <button className="productListEdit">Edit</button>
                 </Link>
-                {!justDisplay && <DeleteOutline
+                <DeleteOutline
                   className="productListDelete"
                   onClick={() => handleDelete(params.row._id)}
-                />}
+                />
               </>
             ) : list?.content.includes(params.row._id) ? (
               <>
@@ -97,6 +97,11 @@ export const MovieTable: React.FC<MovieTableProps> = React.memo(({pageSize, just
       },
     },
   ]
+   
+  if(withoutAction){
+    columns.splice(6,1)
+  }
+
   return (
     <div className='moviesTable'>
       {movies && movies.length > 0 ? (

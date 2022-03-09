@@ -12,7 +12,7 @@ import {
 } from './ActionsCreators'
 import { IMovie } from '../../../models/IMovie'
 import { IList } from '../../../models/IList'
-import { DataStats } from '../../../components/chart/Chart'
+import { IDataStats } from '../../../models/IDataStats'
 
 interface ListsState {
   lists: Array<IList> | null | undefined
@@ -21,7 +21,7 @@ interface ListsState {
   isSuccess: boolean
   list: IList | null
   listMovies: [] | Array<IMovie>
-  listStats: Array<DataStats> | null
+  listStats: Array<IDataStats> | null
   isLoadingListStats: boolean
 }
 
@@ -48,6 +48,9 @@ export const listsSlice = createSlice({
     },
     clearSuccess(state) {
       state.isSuccess = false
+    },
+    clearListStats(state) {
+      state.listStats = null
     }
   },
   extraReducers: {
@@ -140,7 +143,7 @@ export const listsSlice = createSlice({
     [deleteContent.rejected.type]: (state: ListsState, action: PayloadAction<string>) => {
       state.error = action.payload
     },
-    [fetchListStats.fulfilled.type]: (state: ListsState, action: PayloadAction<Array<DataStats>>) => {
+    [fetchListStats.fulfilled.type]: (state: ListsState, action: PayloadAction<Array<IDataStats>>) => {
       state.listStats = action.payload
       state.isLoadingListStats = false
     },
@@ -154,5 +157,5 @@ export const listsSlice = createSlice({
   },
 })
 
-export const { clear, clearSuccess } = listsSlice.actions
+export const { clear, clearSuccess, clearListStats } = listsSlice.actions
 export default listsSlice.reducer

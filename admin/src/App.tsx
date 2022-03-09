@@ -62,7 +62,7 @@ function App() {
                 <Route path="/newList">
                   <AddList />
                 </Route>
-                <Route path="/usersStats">
+                <Route path="/analytics">
                   <Analytics />
                 </Route>
                 <Route exact path="/">

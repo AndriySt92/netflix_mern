@@ -2,108 +2,48 @@ import './sidebar.css'
 import {
   LineStyle,
   Timeline,
-  TrendingUp,
-  PermIdentity,
   PlayCircleOutline,
   List,
-  MailOutline,
-  DynamicFeed,
-  ChatBubbleOutline,
-  WorkOutline,
-  Report,
   AddToQueue,
   QueuePlayNext,
 } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
+import { useMemo, useState } from 'react'
 
 export default function Sidebar() {
+  const [activeLink, setActiveLink] = useState<number>(1)
+
+  const handleSetActive = (id: number) => {
+    setActiveLink(id)
+  }
+
+  const links = useMemo(
+    () => [
+      { id: 1, to: '/', name: 'Home', icon: <LineStyle className="sidebarIcon" /> },
+      { id: 2, to: '/analytics', name: 'Analytics', icon: <Timeline className="sidebarIcon" /> },
+      { id: 3, to: '/users', name: 'Users', icon: <LineStyle className="sidebarIcon" /> },
+      { id: 4, to: '/movies', name: 'Movies', icon: <PlayCircleOutline className="sidebarIcon" /> },
+      { id: 5, to: '/lists', name: 'Lists', icon: <List className="sidebarIcon" /> },
+      { id: 6, to: '/newMovie', name: 'Add Movie', icon: <AddToQueue className="sidebarIcon" /> },
+      { id: 7, to: '/newList', name: 'Add List', icon: <QueuePlayNext className="sidebarIcon" /> },
+    ],
+    [],
+  )
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
-            <Link to="/" className="link">
-              <li className="sidebarListItem active">
-                <LineStyle className="sidebarIcon" />
-                Home
-              </li>
-            </Link>
-            <Link to="/usersStats" className="link">
-              <li className="sidebarListItem">
-                <Timeline className="sidebarIcon" />
-                Analytics
-              </li>
-            </Link>
-          </ul>
-        </div>
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Quick Menu</h3>
-          <ul className="sidebarList">
-            <Link to="/users" className="link">
-              <li className="sidebarListItem">
-                <PermIdentity className="sidebarIcon" />
-                Users
-              </li>
-            </Link>
-            <Link to="/movies" className="link">
-              <li className="sidebarListItem">
-                <PlayCircleOutline className="sidebarIcon" />
-                Movies
-              </li>
-            </Link>
-            <Link to="/lists" className="link">
-              <li className="sidebarListItem">
-                <List className="sidebarIcon" />
-                Lists
-              </li>
-            </Link>
-            <Link to="/newMovie" className="link">
-              <li className="sidebarListItem">
-                <AddToQueue className="sidebarIcon" />
-                Add Movie
-              </li>
-            </Link>
-            <Link to="/newList" className="link">
-              <li className="sidebarListItem">
-                <QueuePlayNext className="sidebarIcon" />
-                Add List
-              </li>
-            </Link>
-          </ul>
-        </div>
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Notifications</h3>
-          <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <MailOutline className="sidebarIcon" />
-              Mail
-            </li>
-            <li className="sidebarListItem">
-              <DynamicFeed className="sidebarIcon" />
-              Feedback
-            </li>
-            <li className="sidebarListItem">
-              <ChatBubbleOutline className="sidebarIcon" />
-              Messages
-            </li>
-          </ul>
-        </div>
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Staff</h3>
-          <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <WorkOutline className="sidebarIcon" />
-              Manage
-            </li>
-            <li className="sidebarListItem">
-              <Timeline className="sidebarIcon" />
-              Analytics
-            </li>
-            <li className="sidebarListItem">
-              <Report className="sidebarIcon" />
-              Reports
-            </li>
+            {links.map((link) => (
+              <Link to={link.to} className="link" onClick={() => handleSetActive(link.id)}>
+                <li className={`sidebarListItem ${activeLink === link.id ? 'active' : ''}`}>
+                  {link.icon}
+                  {link.name}
+                </li>
+              </Link>
+            ))}
           </ul>
         </div>
       </div>

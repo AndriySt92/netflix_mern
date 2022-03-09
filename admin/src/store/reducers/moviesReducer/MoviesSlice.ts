@@ -2,7 +2,7 @@ import { IUser } from '../../../models/IUser'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { fetchMovieStats, fetchMovies, updateMovie, fetchMovie, deleteMovie, createMovie } from './ActionsCreators'
 import { IMovie } from '../../../models/IMovie'
-import { DataStats } from '../../../components/chart/Chart'
+import { IDataStats } from '../../../models/IDataStats'
 
 interface MoviesState {
   movies: Array<IMovie> | null | undefined
@@ -10,7 +10,7 @@ interface MoviesState {
   error: string
   isSuccess: boolean
   movie: IMovie | null
-  movieStats: Array<DataStats> | null
+  movieStats: Array<IDataStats> | null
   isLoadingMovieStats: boolean
 }
 
@@ -32,6 +32,9 @@ export const moviesSlice = createSlice({
       state.error = ''
       state.isSuccess = false
     },
+    clearMovieStats(state) {
+      state.movieStats = null
+    }
   },
   extraReducers: {
     [fetchMovies.fulfilled.type]: (state: MoviesState, action: PayloadAction<Array<IMovie>>) => {
@@ -95,7 +98,7 @@ export const moviesSlice = createSlice({
       state.error = action.payload
       state.isLoading = false
     },
-    [fetchMovieStats.fulfilled.type]: (state: MoviesState, action: PayloadAction<Array<DataStats>>) => {
+    [fetchMovieStats.fulfilled.type]: (state: MoviesState, action: PayloadAction<Array<IDataStats>>) => {
       state.movieStats = action.payload
       state.isLoadingMovieStats = false
     },
@@ -109,5 +112,5 @@ export const moviesSlice = createSlice({
   },
 })
 
-export const { clear } = moviesSlice.actions
+export const { clear, clearMovieStats } = moviesSlice.actions
 export default moviesSlice.reducer

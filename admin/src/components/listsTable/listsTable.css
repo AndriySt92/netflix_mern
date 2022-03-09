@@ -1,5 +1,8 @@
 .listsTable{
     height: 880px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .listsTableItem{

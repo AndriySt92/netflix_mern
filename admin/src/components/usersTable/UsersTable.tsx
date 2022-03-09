@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './usersTable.css'
 import { DataGrid } from '@material-ui/data-grid'
 import { DeleteOutline } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks/redux'
-import { useAppSelector } from '../../hooks/redux'
-import { deleteUser, getUsers } from '../../store/reducers/usersReducer/ActionsCreators'
+import { deleteUser } from '../../store/reducers/usersReducer/ActionsCreators'
 import { formatDate } from '../../helpers/formatDate'
-import { clear } from '../../store/reducers/usersReducer/UsersSlice'
-import { Preloader } from '../../components/preloader/Preloader'
-import { Error } from '../../components/error/Error'
+import { IUser } from '../../models/IUser'
 
 interface UsersTableProps {
-    pageSize: number
+  pageSize: number
+  withoutAction?: boolean
+  users: Array<IUser> | null | undefined
 }
 
-export const UsersTable: React.FC<UsersTableProps> = ({pageSize}) => {
-  const { users, error, isLoading } = useAppSelector((state) => state.usersReducer)
+export const UsersTable: React.FC<UsersTableProps> = React.memo(({ pageSize, withoutAction, users }) => {
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(getUsers())
-    return () => {
-      dispatch(clear())
-    }
-  }, [])
-
   const handleDelete = (id: string) => {
     dispatch(deleteUser(id))
   }
-
   const columns = [
     { field: '_id', headerName: 'ID', width: 250 },
     {
@@ -67,30 +56,34 @@ export const UsersTable: React.FC<UsersTableProps> = ({pageSize}) => {
             <Link to={'/user/' + params.row.id}>
               <button className="usersTableEdit">Edit</button>
             </Link>
-            <DeleteOutline className="usersTableDelete" onClick={() => handleDelete(params.row.id)} />
+            <DeleteOutline
+              className="usersTableDelete"
+              onClick={() => handleDelete(params.row.id)}
+            />
           </>
         )
       },
     },
   ]
 
-  if (error) {
-    return <Error error={error}/>
-  }
-
-  if (isLoading || !users) {
-    return <Preloader />
+  if (withoutAction) {
+    columns.splice(5, 1)
   }
 
   return (
     <div className="usersTable">
-      <DataGrid
-        rows={users}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={pageSize}
-        checkboxSelection
-      />
+      {users && users.length > 0 ? (
+        <DataGrid
+          rows={users}
+          disableSelectionOnClick
+          columns={columns}
+          pageSize={pageSize}
+          checkboxSelection
+          getRowId={(r) => r._id}
+        />
+      ) : (
+        <div className="noContent">No Users</div>
+      )}
     </div>
   )
-}
+})

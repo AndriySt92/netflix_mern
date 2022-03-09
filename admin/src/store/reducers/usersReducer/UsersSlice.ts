@@ -1,6 +1,7 @@
 import { IUser } from '../../../models/IUser'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { fetchUserStats, getUsers, updateUser, getUser, deleteUser } from './ActionsCreators'
+import { IDataStats } from '../../../models/IDataStats'
 
 interface UsersState {
   users: Array<IUser> | null | undefined
@@ -10,7 +11,7 @@ interface UsersState {
   updateError: string
   deleteError: string
   user: IUser | null
-  userStats: Array<{_id: string, total: string}> | null
+  userStats: Array<IDataStats> | null
   isLoadingUserStats: boolean
 }
 
@@ -34,6 +35,10 @@ export const usersSlice = createSlice({
       state.error = ''
       state.isSuccess = false
     }, 
+    clearUserStats(state) {
+      state.userStats = null
+    }, 
+    
   },
   extraReducers: {
     [getUsers.fulfilled.type]: (state: UsersState, action: PayloadAction<Array<IUser>>) => {
@@ -84,7 +89,7 @@ export const usersSlice = createSlice({
     [deleteUser.rejected.type]: (state: UsersState, action: PayloadAction<string>) => {
       state.error = action.payload
     },
-    [fetchUserStats.fulfilled.type]: (state: UsersState, action: PayloadAction<Array<{_id: string, total: string}>>) => {
+    [fetchUserStats.fulfilled.type]: (state: UsersState, action: PayloadAction<Array<IDataStats>>) => {
       state.userStats = action.payload
       state.isLoadingUserStats = false
     },
@@ -98,5 +103,5 @@ export const usersSlice = createSlice({
   },
 })
 
-export const { clear } = usersSlice.actions
+export const { clear, clearUserStats } = usersSlice.actions
 export default usersSlice.reducer

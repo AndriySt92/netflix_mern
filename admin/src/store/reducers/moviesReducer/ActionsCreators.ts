@@ -3,7 +3,7 @@ import { IMovie } from '../../../models/IMovie'
 import { getToken } from '../../../helpers/token'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { uploadFile } from '../../../helpers/uploadFile'
-import { DataStats } from '../../../components/chart/Chart'
+import {IDataStats} from '../../../models/IDataStats'
 
 export const fetchMovies = createAsyncThunk<Array<IMovie>>(
   'movies/fetchMovies',
@@ -124,7 +124,7 @@ export const deleteMovie = createAsyncThunk(
   },
 )
 
-export const fetchMovieStats = createAsyncThunk<Array<DataStats>>(
+export const fetchMovieStats = createAsyncThunk<Array<IDataStats>>(
   'movies/fetchMovieStats',
   async function (_, { rejectWithValue }) {
     try {

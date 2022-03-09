@@ -1,41 +1,23 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './listsTable.css'
 import { DataGrid } from '@material-ui/data-grid'
 import { DeleteOutline } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks/redux'
-import { useAppSelector } from '../../hooks/redux'
-import { clear } from '../../store/reducers/usersReducer/UsersSlice'
-import { Preloader } from '../../components/preloader/Preloader'
-import { Error } from '../../components/error/Error'
-import { deleteList, fetchLists } from '../../store/reducers/listReducer/ActionsCreators'
+import { deleteList } from '../../store/reducers/listReducer/ActionsCreators'
 import { formatDate } from '../../helpers/formatDate'
+import { IList } from '../../models/IList'
 
 interface ListTableProps {
   pageSize: number
+  withoutAction?: boolean
+  lists: Array<IList> | null | undefined
 }
 
-export const ListTable: React.FC<ListTableProps> = ({ pageSize }) => {
-  const { lists, error, isLoading } = useAppSelector((state) => state.listsReducer)
+export const ListTable: React.FC<ListTableProps> = React.memo(({ pageSize, withoutAction, lists }) => {
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(fetchLists())
-    return () => {
-      dispatch(clear())
-    }
-  }, [])
-
   const handleDelete = (id: string) => {
     dispatch(deleteList(id))
-  }
-
-  if (error) {
-    return <Error error={error} />
-  }
-
-  if (isLoading || !lists) {
-    return <Preloader />
   }
 
   const columns = [
@@ -86,16 +68,24 @@ export const ListTable: React.FC<ListTableProps> = ({ pageSize }) => {
     },
   ]
 
+  if(withoutAction){
+    columns.splice(6,1)
+  }
+
   return (
     <div className="listsTable">
-      <DataGrid
-        rows={lists}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={pageSize}
-        checkboxSelection
-        getRowId={(r) => r._id}
-      />
+     {lists && lists.length > 0 ? (
+        <DataGrid
+          rows={lists}
+          disableSelectionOnClick
+          columns={columns}
+          pageSize={pageSize}
+          checkboxSelection
+          getRowId={(r) => r._id}
+        />
+      ) : (
+        <div className="noContent">No Users</div>
+      )}
     </div>
   )
-}
+})
