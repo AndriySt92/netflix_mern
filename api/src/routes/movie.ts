@@ -127,4 +127,31 @@ router.get('/stats', async (_: any, res: express.Response) => {
   }
 })
 
+//SEARCH
+router.post('/search' , async (req: express.Request, res: express.Response) => {
+  const {title} = req.body
+  try {
+    const movie = await MovieModel.find({title})
+    console.log(title)
+    // const data = await MovieModel.find({$text: {$search: title}})
+    
+    
+    if(!movie.length){
+      return res.status(200).json(`nothing found for your search ${title}. Make sure the name is entered without errors`)
+    }
+
+    const {genre, isSerial} = movie[0]
+
+    const offerContent = await MovieModel.find({genre, isSerial})
+
+    if(offerContent.length){
+      return res.status(200).json({data: movie,offerContent})
+    }
+
+      res.status(200).json({data: movie})
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
+
 export default router;
