@@ -36,3 +36,27 @@ export const fetchShowById = async function (id: string) {
     return error.response.data
   }
 }
+
+export const searchMovie = createAsyncThunk<IMovie, string>(
+  'movie/searchMovie',
+  async function (title, { rejectWithValue }) {
+    try {
+      let res = await axios({
+        method: 'get',
+        url: `/api/movies/search?title=${title}`,
+        headers: {
+          token: getToken(),
+        },
+      })
+    
+      if(typeof res.data === 'string' ){
+        return res.data
+      }
+
+      let data = res.data.data
+      return data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  },
+)

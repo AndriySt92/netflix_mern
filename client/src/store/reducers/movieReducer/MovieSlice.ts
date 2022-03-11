@@ -1,17 +1,21 @@
 import { IMovie } from '../../../models/IMovie'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { fetchMovie } from './ActionsCreators'
+import { fetchMovie, searchMovie } from './ActionsCreators'
 
 interface MovieState {
   movie: IMovie | null
   isLoading: boolean
   error: string
+  isSearching: boolean
+  searchedMovie: IMovie | null | string
 }
 
 const initialState: MovieState = {
   movie: null,
   isLoading: false,
   error: '',
+  isSearching: false,
+  searchedMovie: null
 }
 
 export const movieSlice = createSlice({
@@ -29,6 +33,18 @@ export const movieSlice = createSlice({
     },
     [fetchMovie.rejected.type]: (state: MovieState, action: PayloadAction<string>) => {
         state.isLoading = false
+        state.error = action.payload
+    },
+    [searchMovie.fulfilled.type]: (state: MovieState, action: PayloadAction<IMovie | string>) => {
+      state.isSearching = false
+      state.error = ''
+      state.searchedMovie = action.payload
+    },
+    [searchMovie.pending.type]: (state: MovieState) => {
+        state.isSearching = true
+    },
+    [searchMovie.rejected.type]: (state: MovieState, action: PayloadAction<string>) => {
+        state.isSearching = false
         state.error = action.payload
     },
   },

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { ArrowDropDown, Notifications, Search } from '@material-ui/icons'
 import userLogo from '../../images/users/1.png'
 import './navbar.scss'
@@ -6,9 +6,12 @@ import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../store/reducers/authReducer/AuthSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import { useAppSelector } from '../../hooks/redux'
+import { searchMovie } from '../../store/reducers/movieReducer/ActionsCreators'
 
 export const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false)
+  const [visibleInput, setVisibleInput] = useState<boolean>(false)
+  const [text, setText] = useState<string>('')
   const { user } = useAppSelector((state) => state.authReducer)
   const dispatch = useAppDispatch()
   const history = useHistory()
@@ -20,12 +23,25 @@ export const Navbar: React.FC = () => {
   }
 
   window.onscroll = () => {
-    setIsScrolled(window.pageYOffset === 0 ? false : true);
-    return () => (window.onscroll = null);
-  };
+    setIsScrolled(window.pageYOffset === 0 ? false : true)
+    return () => (window.onscroll = null)
+  }
+
+  const handleIconSearch = () => {
+    setVisibleInput(true)
+  }
+
+  const handleSearch = () => {
+    if(text){
+      dispatch(searchMovie(text.toLowerCase()))
+      setVisibleInput(false)
+      setText('')
+    }
+    
+  }
 
   return (
-    <div className={isScrolled ? "navbar scrolled" : "navbar"}>
+    <div className={isScrolled ? 'navbar scrolled' : 'navbar'}>
       <div className="container">
         <div className="left">
           <img
@@ -45,7 +61,15 @@ export const Navbar: React.FC = () => {
           <span>My List</span>
         </div>
         <div className="right">
-          <Search className="icon" />
+          {!visibleInput ? (
+            <Search className="icon" onClick={handleIconSearch} />
+          ) : (
+            <div className='search'>
+              {' '}
+              <input value={text} type="email" name="email" placeholder="Email address" onKeyPress={handleSearch} onChange={(e) => setText(e.target.value)} />
+              <Search className="icon" onClick={handleSearch} />
+            </div>
+          )}
           <span>KID</span>
           <Notifications className="icon" />
           <img src={userLogo} alt="" />

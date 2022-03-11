@@ -36,7 +36,30 @@
         .right{
             display: flex;
             align-items: center;
-
+            .search{
+                position: relative;
+                input {
+                    height: 30px;
+                    width: 220px;
+                    border-radius: 5px;
+                    background-color: #333;
+                    border: none;
+                    color: white;
+                    padding-left: 10px;
+                    margin-right: 20px;
+                    color: #fff;
+                    &::placeholder {
+                        color: #fff
+                    }
+                  }
+                  svg{
+                    position: absolute;
+                    top: 4px;
+                    right: 10px;
+                    cursor: pointer;
+                  }
+            }
+              
             .icon {
                 margin: 0px 15px;
                 cursor: pointer;

@@ -1,6 +1,5 @@
 import React from 'react'
 import { InfoOutlined, PlayArrow } from '@material-ui/icons'
-import poster from '../../images/misc/joker1.jpg'
 import './featured.scss'
 import { IMovie } from '../../models/IMovie'
 
@@ -33,7 +32,7 @@ export const Featured: React.FC<FeaturedProps> = ({ type = 'movie', movie, setGe
           </select>
         </div>
       )}
-      <img src={poster} alt="" />
+      <img src={movie?.img} alt="" />
       <div className="info">
         <h1>Watch {movie?.title} Now</h1>
         <span className="desc">{movie?.desc}</span>
