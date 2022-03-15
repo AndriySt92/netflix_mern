@@ -33,7 +33,7 @@ export const Navbar: React.FC = () => {
 
   const handleSearch = () => {
     if(text){
-      dispatch(searchMovie(text.toLowerCase()))
+      dispatch(searchMovie(text))
       setVisibleInput(false)
       setText('')
     }
@@ -66,7 +66,7 @@ export const Navbar: React.FC = () => {
           ) : (
             <div className='search'>
               {' '}
-              <input value={text} type="email" name="email" placeholder="Email address" onKeyPress={handleSearch} onChange={(e) => setText(e.target.value)} />
+              <input value={text} type="email" name="email" placeholder="Email address" onChange={(e) => setText(e.target.value)} />
               <Search className="icon" onClick={handleSearch} />
             </div>
           )}

@@ -8,6 +8,7 @@ import { IMovie } from '../../models/IMovie'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { fetchMovie } from '../../store/reducers/movieReducer/ActionsCreators'
 import { fetchLists } from '../../store/reducers/ListsReducer/ActionsCreators';
+import { Movie } from '../../components/movie/Movie';
 
 
 interface HomeProps {
@@ -18,6 +19,7 @@ export const Home: React.FC<HomeProps> = ({type}) => {
     const [genre, setGenre] = useState<string>('')
     const dispatch = useAppDispatch()
     const {movie, error: errorMovie, isLoading: isLoadingMovie} = useAppSelector(state => state.movieReducer)
+    const {searchedMovie} = useAppSelector(state => state.movieReducer)
     const {lists, error: errorLists, isLoading: isLoadingLists} = useAppSelector(state => state.listsReducer)
     
     useEffect(() => {
@@ -42,7 +44,7 @@ export const Home: React.FC<HomeProps> = ({type}) => {
         <div className='home'>
             <Navbar />
             <Featured type='movie' movie={movie as IMovie} setGenre={setGenre}/>
-            {lists.map(list => <List list={list} key={list._id} />)}
+            {searchedMovie ? <Movie movie={searchedMovie}/> : lists.map(list => <List list={list} key={list._id} />)}
         </div>
     )
 }
