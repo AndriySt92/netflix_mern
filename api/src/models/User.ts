@@ -11,6 +11,7 @@ export interface UserSchemaInterface {
  birthdate?: string,
  gender?: "male" | 'female' 
  isAdmin?: boolean
+ myList?: string[]
 }
 
 export type UserSchemaDocumentInterface = UserSchemaInterface & Document
@@ -26,6 +27,7 @@ const UserSchema = new Schema<UserSchemaInterface>(
     gender: {type: String},
     birthdate: { type: String},
     isAdmin: { type: Boolean, default: false },
+    myList: [{type: Schema.Types.ObjectId, ref: 'Movie'}]
   },
   { timestamps: true, toJSON: { virtuals: true }  }, 
 );

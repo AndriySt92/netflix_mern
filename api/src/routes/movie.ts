@@ -135,18 +135,21 @@ router.get('/search' , async (req: express.Request, res: express.Response) => {
     const movie = await MovieModel.findOne({title})
     
     if(!movie){
-      return res.status(200).json(`Nothing found for your search ${title}. Make sure the name is entered without errors`)
+      return res.status(400).json({message: `Nothing found for your search ${title}. Make sure the name is entered without errors`})
     }
 
-    const {genre, isSerial} = movie
+    const {genre, isSeries} = movie
 
-    const offerContent = await MovieModel.find({genre, isSerial})
+    const offerContent = await MovieModel.aggregate([
+      { $match: { isSeries, genre, title: {$ne: title } } },
+      { $sample: { size: 10 } },
+    ]);
 
     if(offerContent.length){
       return res.status(200).json({data: movie,offerContent})
     }
 
-      res.status(200).json({data: movie})
+    res.status(200).json({data: movie})
   } catch (err) {
     res.status(500).json(err)
   }

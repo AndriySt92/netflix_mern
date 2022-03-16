@@ -11,7 +11,7 @@ interface MovieSchemaInterface extends Document {
   year?: string
   limit?: number
   genre?: string
-  isSerial?: boolean
+  isSeries?: boolean
 }
 
 const MovieSchema = new Schema(
@@ -26,7 +26,7 @@ const MovieSchema = new Schema(
     year: { type: String },
     limit: { type: String },
     genre: { type: String },
-    isSerial: { type: Boolean, default: false },
+    isSeries: { type: Boolean, default: false },
   },
   { timestamps: true },
 )

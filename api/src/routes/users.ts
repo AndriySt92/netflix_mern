@@ -97,4 +97,46 @@ router.get('/stats', async (_: any, res: express.Response) => {
   }
 })
 
+//  PUT MOVIE TO LIST
+//@ts-ignore
+router.put("/addMovie/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
+
+    try {
+      const movieId = req.body.id
+      const userId = req.params.id
+
+      await UserModel.findByIdAndUpdate(
+        userId,
+      { $push: { myList: movieId } }
+      )
+     
+
+    res.status(200).json({movieId});
+    } catch (err) {
+      res.status(500).json(err);
+    }
+});
+
+//DELETE MOVIE FROM LIST
+//@ts-ignore
+router.put("/deleteMovie/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
+
+    try {
+        const movieId = req.body.id
+        const userId = req.params.id
+
+        await UserModel.findByIdAndUpdate(
+        userId,
+        {
+          $pull: { myList: { $in: [ movieId ] } },
+        }
+     )
+
+      res.status(200).json(movieId);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+});
+
+
 export default router
