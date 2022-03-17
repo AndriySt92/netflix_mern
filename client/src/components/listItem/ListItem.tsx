@@ -7,15 +7,17 @@ import { Link } from 'react-router-dom'
 
 interface IListItemProps {
   index: number
-  showId: string
+  showId?: string
+  movie?: IMovie
 }
 
-export const ListItem: React.FC<IListItemProps> = ({ index, showId }) => {
+export const ListItem: React.FC<IListItemProps> = ({ index, showId, movie }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false)
   const [show, setShow] = useState<IMovie | null>(null)
   const [error, setError] = useState<any>(null)
 
   useEffect(() => {
+    if(showId){
     const getShow = async () => {
       try {
         const res = await fetchShowById(showId)
@@ -25,7 +27,10 @@ export const ListItem: React.FC<IListItemProps> = ({ index, showId }) => {
       }
     }
     getShow()
-  }, [showId])
+  } else {
+    setShow(movie as IMovie)
+  }
+  }, [showId, movie])
 
   if(error){
     return <div className='listItemError'>{error}</div>

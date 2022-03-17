@@ -3,12 +3,14 @@ import { ArrowBackIosOutlined, ArrowForwardIosOutlined } from '@material-ui/icon
 import { ListItem } from '../listItem/ListItem'
 import './list.scss'
 import { IList } from '../../models/IList'
+import { IMovie } from '../../models/IMovie'
 
 interface ListProps {
-  list: IList
+  list?: IList
+  offerContent?: Array<IMovie>
 }
 
-export const List: React.FC<ListProps> = ({ list }) => {
+export const List: React.FC<ListProps> = ({ list, offerContent }) => {
   const [isMovedLeft, setIsMovedLeft] = useState<boolean>(false)
   const [isMovedRight, setIsMovedRight] = useState<boolean>(true)
   const [slideNumber, setSlideNumber] = useState<number>(0)
@@ -42,7 +44,7 @@ export const List: React.FC<ListProps> = ({ list }) => {
 
   return (
     <div className="list">
-      <span className="listTitle">{list.title}</span>
+      {list && <span className="listTitle">{list.title}</span>}
       <div className="wrapper">
         <ArrowBackIosOutlined
           className="sliderArrow left"
@@ -50,8 +52,11 @@ export const List: React.FC<ListProps> = ({ list }) => {
           style={{ display: !isMovedLeft && ('none' as any) }}
         />
         <div className="container" ref={listRef}>
-          {list.content.map((showId, i) => (
+          {list && list.content.map((showId, i) => (
             <ListItem index={i} key={`${showId}${i}`} showId={showId} />
+          ))}
+          {offerContent && offerContent.map((show, i) => (
+            <ListItem index={i} key={i} movie={show} />
           ))}
         </div>
         <ArrowForwardIosOutlined

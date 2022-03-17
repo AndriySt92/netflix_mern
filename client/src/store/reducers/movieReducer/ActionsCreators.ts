@@ -49,13 +49,13 @@ export const searchMovie = createAsyncThunk<IMovie, string>(
         },
       })
     
-      if(typeof res.data === 'string' ){
-        return res.data
-      }
-
-      let data = res.data.data
+      let data = res.data
       return data
     } catch (error) {
+      debugger
+      if(error.response.data.message){
+        return rejectWithValue(error.response.data.message)
+      }
       return rejectWithValue(error.response.data)
     }
   },

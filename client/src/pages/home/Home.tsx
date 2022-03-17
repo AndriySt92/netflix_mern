@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { fetchMovie } from '../../store/reducers/movieReducer/ActionsCreators'
 import { fetchLists } from '../../store/reducers/ListsReducer/ActionsCreators';
 import { Movie } from '../../components/movie/Movie';
+import { Error } from '../../components/error/Error';
+import { useHistory, useLocation } from 'react-router-dom';
 
 
 interface HomeProps {
@@ -18,9 +20,13 @@ interface HomeProps {
 export const Home: React.FC<HomeProps> = ({type}) => {
     const [genre, setGenre] = useState<string>('')
     const dispatch = useAppDispatch()
+    const history = useHistory()
+    const location = useLocation();
     const {movie, error: errorMovie, isLoading: isLoadingMovie} = useAppSelector(state => state.movieReducer)
-    const {searchedMovie} = useAppSelector(state => state.movieReducer)
+    const {searchedMovie,offerContent, isSearching, searchError} = useAppSelector(state => state.movieReducer)
     const {lists, error: errorLists, isLoading: isLoadingLists} = useAppSelector(state => state.listsReducer)
+    const contentError = searchError || errorLists
+    const isContentLoading = isLoadingLists || isSearching
     
     useEffect(() => {
       dispatch(fetchMovie({type}))
@@ -31,12 +37,26 @@ export const Home: React.FC<HomeProps> = ({type}) => {
       dispatch(fetchMovie({type}))
       dispatch(fetchLists({type, genre}))
     }, [type, genre]);
+
+    useEffect(() => {
+      if(searchedMovie){
+      history.push({
+        pathname: location.pathname,
+        search: `?title=${searchedMovie.title}`
+      })
+      } else {
+        history.push({
+          pathname: location.pathname,
+          search: ''
+        })
+      }
+    }, [searchedMovie]);
   
-    if(isLoadingMovie || isLoadingLists){
+    if(isLoadingMovie){
       return <Loading />
     }
   
-    if (errorMovie || errorLists) {
+    if (errorMovie) {
       return <div className='fetchError'>ERROR. {errorMovie}.{errorLists}</div>
     }
 
@@ -44,7 +64,9 @@ export const Home: React.FC<HomeProps> = ({type}) => {
         <div className='home'>
             <Navbar />
             <Featured type='movie' movie={movie as IMovie} setGenre={setGenre}/>
-            {searchedMovie ? <Movie movie={searchedMovie}/> : lists.map(list => <List list={list} key={list._id} />)}
+            {contentError && <Error error={contentError} />}
+            {isContentLoading && <Loading smallLoader />}
+            {searchedMovie && offerContent ? <Movie movie={searchedMovie} offerContent={offerContent}/> : lists.map(list => <List list={list} key={list._id} />)}
         </div>
     )
 }
