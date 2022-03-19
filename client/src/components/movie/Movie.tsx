@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import './movie.scss'
 import { IMovie } from '../../models/IMovie'
 import AddIcon from '../../images/misc/add.png'
+import deleteIcon from '../../images/misc/delete.png'
 import { Link } from 'react-router-dom'
 import { List } from '../list/List'
 import { useDispatch } from 'react-redux'
 import { closeSearchMovie } from '../../store/reducers/movieReducer/MovieSlice'
+import { useAppSelector } from '../../hooks/redux'
+import { addMovieToMyList, deleteMovieFromMyList } from '../../store/reducers/authReducer/ActionsCreators'
 
 interface MovieProps {
   movie: IMovie
@@ -13,6 +16,7 @@ interface MovieProps {
 }
 
 export const Movie: React.FC<MovieProps> = ({ movie, offerContent }) => {
+  const {user, isUpdating } = useAppSelector(state => state.authReducer)
   const dispatch = useDispatch()
   const [itemIndex, setItemIndex] = useState<{ currentIndex: number; prevIndex: number }>({
     currentIndex: 0,
@@ -21,6 +25,16 @@ export const Movie: React.FC<MovieProps> = ({ movie, offerContent }) => {
 
   const handleCloseMovie = () => {
     dispatch(closeSearchMovie())
+  }
+
+  const handleClickMyList = () => {
+    if(user){
+      if(!user.myList.includes(movie._id)){
+        dispatch(addMovieToMyList({movieId: movie._id}))
+      } else {
+        dispatch(deleteMovieFromMyList({movieId: movie._id}))
+      }
+    }
   }
 
   return (
@@ -109,8 +123,9 @@ export const Movie: React.FC<MovieProps> = ({ movie, offerContent }) => {
                 </div>
               </>
             )}
-            <div>
-              <img src={AddIcon} alt="" /> MY LIST
+            <div onClick={handleClickMyList} className={isUpdating ? 'disable' : ''}>
+              {!user?.myList.includes(movie._id) && <><img src={AddIcon} alt="" /> MY LIST </>}
+              {user?.myList.includes(movie._id) && <><img src={deleteIcon} alt=""  /> MY LIST </>}
             </div>
           </div>
         </div>

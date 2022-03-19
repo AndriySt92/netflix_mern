@@ -1,6 +1,8 @@
 export interface IUser{
+    _id: string
     username: string
     email: string
+    myList: Array<string>
 }
 
 export type LoginData = {

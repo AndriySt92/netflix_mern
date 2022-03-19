@@ -84,6 +84,10 @@
         margin-right: 20px;
       }
     }
+    & .disable {
+      pointer-events: none;
+      opacity: 0.8;
+    }
   }
   & .movieInfo div:first-child {
     margin: 30px 0px 30px !important;
