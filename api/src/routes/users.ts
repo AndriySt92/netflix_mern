@@ -99,19 +99,19 @@ router.get('/stats', async (_: any, res: express.Response) => {
 
 //  PUT MOVIE TO LIST
 //@ts-ignore
-router.put("/addMovie/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
-
+router.post("/addMovie", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
     try {
       const movieId = req.body.id
-      const userId = req.params.id
-
-      await UserModel.findByIdAndUpdate(
+      const userId = req.user.id
+      
+      const userData = await UserModel.findByIdAndUpdate(
         userId,
-      { $push: { myList: movieId } }
+      { $push: { myList: movieId } }, 
+      { new: true }
       )
-     
-
-    res.status(200).json({movieId});
+      
+      const myList = userData?.myList
+      res.status(200).json({myList})
     } catch (err) {
       res.status(500).json(err);
     }
@@ -119,20 +119,22 @@ router.put("/addMovie/:id", verify, async (req: IGetUserAuthInfoRequest, res: ex
 
 //DELETE MOVIE FROM LIST
 //@ts-ignore
-router.put("/deleteMovie/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
+router.delete("/deleteMovie/:id", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
 
     try {
-        const movieId = req.body.id
-        const userId = req.params.id
+        const movieId = req.params.id
+        const userId = req.user.id
 
-        await UserModel.findByIdAndUpdate(
+        const userData = await UserModel.findByIdAndUpdate(
         userId,
         {
           $pull: { myList: { $in: [ movieId ] } },
-        }
+        },
+        { new: true }
      )
 
-      res.status(200).json(movieId);
+        const myList = userData?.myList
+        res.status(200).json({myList})
     } catch (err) {
       res.status(500).json(err);
     }
