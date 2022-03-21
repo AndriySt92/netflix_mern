@@ -93,16 +93,19 @@ router.get("/random", verify, async (req: IGetUserAuthInfoRequest, res: express.
 //GET ALL
 //@ts-ignore
 router.get("/", verify, async (req: IGetUserAuthInfoRequest, res: express.Response): Promise<void> => {
-  if (req.user.isAdmin) {
+    const newMovie = req.query.newMovies
+    let movies;
     try {
-      const movies = await MovieModel.find();
+      if(newMovie) {
+        movies = await MovieModel.find().limit(10).sort({'createdAt': -1})
+        res.status(200).json(movies)
+        return 
+      }
+      movies = await MovieModel.find();
       res.status(200).json(movies.reverse());
     } catch (err) {
       res.status(500).json(err);
     }
-  } else {
-    res.status(403).json("You are not allowed!");
-  }
 });
 
 //GET MOVIE STATS
