@@ -5,14 +5,12 @@ import './navbar.scss'
 import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../store/reducers/authReducer/AuthSlice'
 import { useAppDispatch } from '../../hooks/redux'
-import { useAppSelector } from '../../hooks/redux'
 import { searchMovie } from '../../store/reducers/movieReducer/ActionsCreators'
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false)
   const [visibleInput, setVisibleInput] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
-  const { user } = useAppSelector((state) => state.authReducer)
   const dispatch = useAppDispatch()
   const history = useHistory()
 
@@ -34,10 +32,10 @@ export const Navbar: React.FC = () => {
   const handleSearch = () => {
     if(text){
       dispatch(searchMovie(text))
+      history.push('/searchMovie')
       setVisibleInput(false)
       setText('')
     }
-    
   }
 
   return (
@@ -57,8 +55,8 @@ export const Navbar: React.FC = () => {
           <Link to="/movies" className="link">
             <span className="navbarmainLinks">Movies</span>
           </Link>
-          <span>New and Popular</span>
-          <span>My List</span>
+          <Link to='/newMovies' className="link"><span>New and Popular</span></Link>
+          <Link to='/myList' className="link"><span>My List</span></Link>
         </div>
         <div className="right">
           {!visibleInput ? (

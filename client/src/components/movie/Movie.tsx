@@ -3,7 +3,7 @@ import './movie.scss'
 import { IMovie } from '../../models/IMovie'
 import AddIcon from '../../images/misc/add.png'
 import deleteIcon from '../../images/misc/delete.png'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { List } from '../list/List'
 import { useDispatch } from 'react-redux'
 import { closeSearchMovie } from '../../store/reducers/movieReducer/MovieSlice'
@@ -18,12 +18,14 @@ interface MovieProps {
 export const Movie: React.FC<MovieProps> = ({ movie, offerContent }) => {
   const {user, isUpdating } = useAppSelector(state => state.authReducer)
   const dispatch = useDispatch()
+  const history = useHistory()
   const [itemIndex, setItemIndex] = useState<{ currentIndex: number; prevIndex: number }>({
     currentIndex: 0,
     prevIndex: 0,
   })
 
   const handleCloseMovie = () => {
+    history.push('/')
     dispatch(closeSearchMovie())
   }
 
@@ -163,7 +165,7 @@ export const Movie: React.FC<MovieProps> = ({ movie, offerContent }) => {
         </div>
       </div>
       <h1>What else to watch on netflix</h1>
-      <List offerContent={offerContent} /> 
+      <List content={offerContent} /> 
     </div>
   )
 }

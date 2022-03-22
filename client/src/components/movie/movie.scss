@@ -3,15 +3,16 @@
   height: 100%;
   padding: 10px;
   h1 {
-    font-size: 50px;
+    font-size: 20px;
     font-weight: 500;
-    margin-left: 10px;
+    margin-left: 50px;
     line-height: 100px;
     color: white;
   }
   & .movieContent {
     height: 550px;
     position: relative;
+    margin-left: 40px;
     & .movieImg {
       position: absolute;
       right: 0px;

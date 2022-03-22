@@ -7,10 +7,11 @@ import { IMovie } from '../../models/IMovie'
 
 interface ListProps {
   list?: IList
-  offerContent?: Array<IMovie>
+  content?: Array<IMovie>
+  title? : string
 }
 
-export const List: React.FC<ListProps> = ({ list, offerContent }) => {
+export const List: React.FC<ListProps> = ({ list, content, title }) => {
   const [isMovedLeft, setIsMovedLeft] = useState<boolean>(false)
   const [isMovedRight, setIsMovedRight] = useState<boolean>(true)
   const [slideNumber, setSlideNumber] = useState<number>(0)
@@ -45,6 +46,7 @@ export const List: React.FC<ListProps> = ({ list, offerContent }) => {
   return (
     <div className="list">
       {list && <span className="listTitle">{list.title}</span>}
+      {title&& <span className="listTitle">{title}</span>}
       <div className="wrapper">
         <ArrowBackIosOutlined
           className="sliderArrow left"
@@ -55,7 +57,7 @@ export const List: React.FC<ListProps> = ({ list, offerContent }) => {
           {list && list.content.map((showId, i) => (
             <ListItem index={i} key={`${showId}${i}`} showId={showId} />
           ))}
-          {offerContent && offerContent.map((show, i) => (
+          {content && content.map((show, i) => (
             <ListItem index={i} key={i} movie={show} />
           ))}
         </div>

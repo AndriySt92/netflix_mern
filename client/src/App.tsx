@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { setAuthUser } from './store/reducers/authReducer/AuthSlice'
 import { useAppDispatch } from './hooks/redux'
 import { useAppSelector } from './hooks/redux'
+import { Error } from './components/error/Error'
+import { NewMoviesList } from './components/newMovieList/NewMovieList'
 
 function App() {
   const {user} = useAppSelector(state => state.authReducer)
@@ -25,13 +27,13 @@ function App() {
   return (
     <Router>
     <Switch>
-      <Route exact path="/">
-        {user ? <Home /> : <Redirect to="/register" />}
-      </Route>
       <Route path="/register">
         {!user ? <Register /> : <Redirect to="/" />}
       </Route>
       <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
+      <Route exact path="/:content?">
+        {user ? <Home /> : <Redirect to="/register" />}
+      </Route>
       {user && (
         <>
           <Route path="/movies">
@@ -42,6 +44,9 @@ function App() {
           </Route>
           <Route path="/watch">
             <Watch />
+          </Route>
+          <Route path="*">
+            <Error error='Not Found 404' />
           </Route>
         </>
       )}
