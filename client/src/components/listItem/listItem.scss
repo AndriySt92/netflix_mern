@@ -1,89 +1,63 @@
 .listItem {
-    width: 225px;
-    height: 120px;
-    background-color: var(--main-color);
-    margin-right: 5px;
-    overflow: hidden;
-    cursor: pointer;
-    color: white;
-  
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  
-    video {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-  
-    &:hover {
-      width: 325px;
-      height: 300px;
-      position: absolute;
-      top: -150px;
-      -webkit-box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
-      box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
-      border-radius: 5px;
-  
-      img {
-        height: 140px;
-      }
-  
-      .itemInfo {
-        display: flex;
-        flex-direction: column;
-        padding: 5px;
-  
-        .icons {
-          display: flex;
-          margin-bottom: 10px;
-  
-          .icon {
-            border: 2px solid white;
-            padding: 5px;
-            border-radius: 50%;
-            margin-right: 10px;
-            font-size: 16px;
-          }
-        }
-        .itemInfoTop {
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-          font-size: 14px;
-          font-weight: 600;
-          color: gray;
-  
-          .limit {
-            border: 1px solid gray;
-            padding: 1px 3px;
-            margin: 0 10px;
-          }
-        }
-  
-        .desc {
-          font-size: 13px;
-          margin-bottom: 10px;
-        }
-  
-        .genre {
-          font-size: 14px;
-          color: lightgray;
-        }
-      }
-    }
+  width: 225px;
+  height: auto;
+  background-color: var(--main-color);
+  margin-right: 5px;
+  cursor: pointer;
+  color: white;
+  border: 3px solid transparent;
+  border-radius: 5px;
+  background-color: transparent;
+  box-shadow: 1px -75px 35px -64px rgba(0, 0, 0, 1) inset;
+  -webkit-box-shadow: 1px -75px 35px -64px rgba(0, 0, 0, 1) inset;
+  -moz-box-shadow: 1px -75px 35px -64px rgba(0, 0, 0, 1) inset;
+  position: relative;
+  transition: all 100ms ease-in;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    position: relative;
+    z-index: -1;
   }
-  .listItemError {
-    color: red;
-    font-size: 20px;
-    text-align: center;
-    border: 1px solid red;
-    margin: 10px;
-    width: 300px;
+
+  .arrowBottom {
+    width: 22px;
+    height: 22px;
+
+    position: absolute;
+    left: 50%;
+    bottom: -10%;
+
+    transform: translate(-50%, 0%);
   }
+}
+.listItemError {
+  color: red;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid red;
+  margin: 10px;
+  width: 300px;
+}
+
+.listItem.active {
+  border: 3px solid grey;
+  position: relative;
+  text-align: center;
+  
+  &::after {
+    content: '';
+    display: block;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid grey;
+    position: absolute;
+    left: 50%;
+    bottom: -8%;
+    transform: translate(-50%, 0%);
+  }
+}

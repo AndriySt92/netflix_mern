@@ -12,10 +12,12 @@ import { addMovieToMyList, deleteMovieFromMyList } from '../../store/reducers/au
 
 interface MovieProps {
   movie: IMovie
-  offerContent: Array<IMovie> 
+  offerContent?: Array<IMovie> 
+  setClickedMovie?: (movie: null) => void
+  setActive?: (index: null) => void
 }
 
-export const Movie: React.FC<MovieProps> = ({ movie, offerContent }) => {
+export const Movie: React.FC<MovieProps> = ({ movie, offerContent, setClickedMovie, setActive }) => {
   const {user, isUpdating } = useAppSelector(state => state.authReducer)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -25,6 +27,10 @@ export const Movie: React.FC<MovieProps> = ({ movie, offerContent }) => {
   })
 
   const handleCloseMovie = () => {
+    if(setActive){
+      setActive(null)
+      return
+    }
     history.push('/')
     dispatch(closeSearchMovie())
   }
@@ -39,6 +45,10 @@ export const Movie: React.FC<MovieProps> = ({ movie, offerContent }) => {
     }
   }
 
+  if(!movie) {
+    return null
+  }
+  
   return (
     <div className="movie">
       <h1>Searching movie</h1>

@@ -4,6 +4,7 @@ import { ListItem } from '../listItem/ListItem'
 import './list.scss'
 import { IList } from '../../models/IList'
 import { IMovie } from '../../models/IMovie'
+import { Movie } from '../movie/Movie'
 
 interface ListProps {
   list?: IList
@@ -15,6 +16,8 @@ export const List: React.FC<ListProps> = ({ list, content, title }) => {
   const [isMovedLeft, setIsMovedLeft] = useState<boolean>(false)
   const [isMovedRight, setIsMovedRight] = useState<boolean>(true)
   const [slideNumber, setSlideNumber] = useState<number>(0)
+  const [active, setActive] = useState<number | null>(null)
+  const [clickedMovie, setClickedMovie] = useState<IMovie | null>(null)
   const listRef = useRef<any>()
   const clickLimit: number =
     Math.ceil(listRef.current?.clientWidth / 230) - Math.floor(window.innerWidth / 230)
@@ -42,7 +45,8 @@ export const List: React.FC<ListProps> = ({ list, content, title }) => {
       }
     }
   }
-
+ 
+  console.log(clickedMovie)
   return (
     <div className="list">
       {list && <span className="listTitle">{list.title}</span>}
@@ -55,7 +59,9 @@ export const List: React.FC<ListProps> = ({ list, content, title }) => {
         />
         <div className="container" ref={listRef}>
           {list && list.content.map((showId, i) => (
-            <ListItem index={i} key={`${showId}${i}`} showId={showId} />
+            <div onClick={() => setActive(i)} >
+              <ListItem index={i} key={`${showId}${i}`} showId={showId} active = {active === i} setClickedMovie = {setClickedMovie} />
+            </div>
           ))}
           {content && content.map((show, i) => (
             <ListItem index={i} key={i} movie={show} />
@@ -66,6 +72,9 @@ export const List: React.FC<ListProps> = ({ list, content, title }) => {
           onClick={() => handleClick('right')}
           style={{ display: !isMovedRight && ('none' as any) }}
         />
+      </div>
+      <div className={`listClickedMovie ${active || active === 0 ? 'active' : 'close'}`}>
+        <Movie movie={clickedMovie as IMovie} setActive={setActive} />
       </div>
     </div>
   )

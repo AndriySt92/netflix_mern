@@ -1,44 +1,91 @@
 .list {
-    width: 100%;
-    margin-top: 10px;
-  
-    .listTitle {
+  width: 100%;
+  margin-top: 10px;
+
+  .listTitle {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 50px;
+  }
+
+  .wrapper {
+    position: relative;
+    .sliderArrow {
+      width: 50px;
+      height: 100%;
+      background-color: rgb(22, 22, 22, 0.5);
       color: white;
-      font-size: 20px;
-      font-weight: 500;
-      margin-left: 50px;
+      position: absolute;
+      z-index: 99;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      cursor: pointer;
+
+      &.left {
+        left: 0;
+      }
+
+      &.right {
+        right: 0;
+      }
     }
-  
-    .wrapper {
-      position: relative;
-      .sliderArrow {
-        width: 50px;
-        height: 100%;
-        background-color: rgb(22, 22, 22, 0.5);
-        color: white;
-        position: absolute;
-        z-index: 99;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        cursor: pointer;
-  
-        &.left {
-          left: 0;
-        }
-  
-        &.right {
-          right: 0;
-        }
-      }
-      .container {
-        margin-left: 50px;
-        margin-bottom: 25px;
-        display: flex;
-        margin-top: 10px;
-        width: max-content;
-        transform: translateX(0px);
-        transition: all 0.5s ease;
-      }
+    .container {
+      margin-left: 50px;
+      margin-bottom: 25px;
+      display: flex;
+      margin-top: 10px;
+      width: max-content;
+      transform: translateX(0px);
+      transition: all 0.5s ease;
     }
   }
+}
+
+.listClickedMovie {
+  padding: 0px;
+  margin-top: -20px;
+  overflow: hidden;
+}
+
+.listClickedMovie .movie h1 {
+  display: none;
+}
+
+.listClickedMovie.active {
+  animation: movie-slide-open 1s ease both;
+}
+
+.listClickedMovie.close {
+  animation: movie-slide-close 1s ease both;
+}
+
+@keyframes movie-slide-open {
+  0% {
+    opacity: 0.2;
+    filter: blur(20px);
+    height: 0px;
+  }
+  50% {
+    height: 585px;
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+@keyframes movie-slide-close {
+  0% {
+    opacity: 1;
+    filter: blur(0px);
+    height: 585px;
+  }
+
+  100% {
+    opacity: 0.5;
+    filter: blur(20px);
+    height: 0px;
+  }
+}
