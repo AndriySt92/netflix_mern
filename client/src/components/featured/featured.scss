@@ -13,12 +13,12 @@
     align-items: center;
 
     select {
-        cursor: pointer;
-        background-color: var(--main-color);
-        border: 1px solid white;
-        color: white;
-        margin-left: 20px;
-        padding: 5px;  
+      cursor: pointer;
+      background-color: var(--main-color);
+      border: 1px solid white;
+      color: white;
+      margin-left: 20px;
+      padding: 5px;
     }
   }
 
@@ -49,6 +49,10 @@
     .buttons {
       display: flex;
 
+      a{
+        text-decoration: none;
+      }
+
       button {
         padding: 10px 20px;
         border: none;
@@ -75,6 +79,41 @@
           margin-left: 5px;
         }
       }
+    }
+    .movieInfoModal {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: start;
+      box-shadow: 0px 1px 45px 16px rgba(0, 0, 0, 0.75);
+      padding: 10px 40px;
+      max-width: 200px;
+      background-color: var(--main-color);
+      color: #fff;
+
+      position: relative;
+      bottom: -11px;
+      left: 0px;
+
+      transform: translateY(100px);
+      opacity: 0;
+
+      transition: all 1s ease-in-out;
+
+      svg {
+        fill: #fff;
+        width: 20px;
+        height: 20px;
+
+        position: absolute;
+        right: 0px;
+        top: 8px;
+      }
+    }
+
+    .movieInfoModal.active {
+      transform: translateY(0px);
+      opacity: 1;
     }
   }
 }
