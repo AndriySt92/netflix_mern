@@ -101,67 +101,68 @@ export const Register: React.FC = () => {
       setIndexQuestion(index)
       setIsOpenAnswer(!isOpenAnswer)
     }
- 
   }
 
   return (
     <div className="register">
-      <div className="top">
-        <div className="wrapper">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-            alt=""
-            className="logo"
-          />
-          <button className="loginButton">
-            <NavLink to="/login">Sign in</NavLink>
-          </button>
-        </div>
-      </div>
-      <div className="registerForm">
-        <div className="registerFormHeader">
-          <h1>Unlimited movies, TV shows, and more</h1>
-          <h2>Watch anywhere. Cancel anytime.</h2>
-          <p>Ready to watch? Enter your email to create or restart your membership.</p>
-        </div>
-
-        {!isGetStated ? (
-          <div className="input">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email address"
-              value={registerData.email}
-              onChange={changeHandler}
+      <div className="registerHeader">
+        <div className="top">
+          <div className="wrapper">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
+              alt=""
+              className="logo"
             />
-            <button className="registerButton" onClick={handleGetStated}>
-              Get started
+            <button className="loginButton">
+              <NavLink to="/login">Sign in</NavLink>
             </button>
           </div>
-        ) : (
-          <>
-            {error && <div className="error">{error}</div>}
-            <form action="" className="input">
+        </div>
+        <div className="registerForm">
+          <div className="registerFormHeader">
+            <h1>Unlimited movies, TV shows, and more</h1>
+            <h2>Watch anywhere. Cancel anytime.</h2>
+            <p>Ready to watch? Enter your email to create or restart your membership.</p>
+          </div>
+
+          {!isGetStated ? (
+            <div className="input">
               <input
-                type="username"
-                placeholder="username"
-                name="username"
-                value={registerData.username}
+                type="email"
+                name="email"
+                placeholder="Email address"
+                value={registerData.email}
                 onChange={changeHandler}
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                value={registerData.password}
-                onChange={changeHandler}
-              />
-              <button disabled={isLoading} className="registerButton" onClick={handleFinish}>
-                Start
+              <button className="registerButton" onClick={handleGetStated}>
+                Get started
               </button>
-            </form>
-          </>
-        )}
+            </div>
+          ) : (
+            <>
+              {error && <div className="error">{error}</div>}
+              <form action="" className="input">
+                <input
+                  type="username"
+                  placeholder="username"
+                  name="username"
+                  value={registerData.username}
+                  onChange={changeHandler}
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  value={registerData.password}
+                  onChange={changeHandler}
+                />
+                <button disabled={isLoading} className="registerButton" onClick={handleFinish}>
+                  Start
+                </button>
+              </form>
+            </>
+          )}
+        </div>
       </div>
       <div className="section">
         <div className="container">

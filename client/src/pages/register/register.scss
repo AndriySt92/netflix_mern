@@ -1,10 +1,10 @@
-.register {
-  width: 100vw;
+.registerHeader {
   height: 743px;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%),
     url('https://cdn.hipwallpaper.com/i/98/21/dUyCkp.jpg');
   background-size: cover;
   border-bottom: 8px solid #222222;
+  overflow-x: hidden;
 }
 
 .top {
@@ -33,10 +33,18 @@
       }
     }
   }
+  @media screen and (max-width: 350px){
+    .wrapper {
+      padding: 20px !important;
+      .logo {
+        height: 30px !important;
+      }
+    }
+  }
 }
 
 .registerForm {
-  width: 100%;
+  width: 99%;
   height: 90%;
   top: 0;
   left: 0;
@@ -47,10 +55,12 @@
   color: white;
 
   .registerFormHeader {
-    width: 817px;
+    max-width: 817px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     h1 {
       font-size: 64px;
       text-align: center;
@@ -67,7 +77,8 @@
   }
 
   .input {
-    width: 750px;
+    max-width: 750px;
+    width: 100%;
     background-color: white;
     display: flex;
     align-items: center;
@@ -104,21 +115,60 @@
     margin-top: 16px;
     margin-bottom: 0px;
   }
+
+    @media screen and (max-width: 900px){
+      .input {
+        max-width: 600px;
+        height: 60px;
+      }
+    }
+    @media screen and (max-width: 700px){
+      .registerFormHeader{
+        padding: 0px 10px;
+        h1{
+          font-size: 50px;
+        }
+      }
+      .input {
+        max-width: 450px;
+        height: 60px;
+      }
+    }
+
+    @media screen and (max-width: 480px){
+      .registerFormHeader{
+        h1{
+          font-size: 35px;
+        }
+      }
+      .input {
+        height: 50px;
+        max-width: 340px;
+        input {
+          font-size: 16px;
+        }
+        button {
+          font-size: 18px;
+        }
+      }
+    }
 }
 
 .section {
   width: 100%;
   background-color: var(--main-color);
   border-bottom: 8px solid #222;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
   .container {
     max-width: 1100px;
     padding: 50px 0px;
-    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-
+    overflow-x: hidden;
     .cardInfo {
       color: white;
       width: 49%;
@@ -137,6 +187,8 @@
       height: 400px;
       position: relative;
       z-index: 3;
+      overflow: hidden;
+      text-align: center;
       img {
         max-width: 100%;
         height: auto;
@@ -157,13 +209,15 @@
         }
       }
       .video2 {
-        width: 345px;
-        height: 198px;
-        top: 37px;
-        left: 84px;
+        max-width: 62%;
+        width: 100%;
+        height: 100%;
+        top: -16%;
+        left: 19%;
       }
       .cardImgAnimation {
-        width: 312px;
+        max-width: 62%;
+        width: 100%;
         height: 84px;
         border: 2px solid rgba(255, 255, 255, 0.25);
         background-color: var(--main-color);
@@ -174,7 +228,7 @@
         position: absolute;
         bottom: 34px;
         z-index: 99;
-        left: 88px;
+        left: 16%;
 
         img {
           width: 57px;
@@ -212,6 +266,150 @@
       }
     }
   }
+
+  @media screen and (max-width: 1300px){
+      .container {
+        max-width: 900px;
+        .cardImg {
+          .cardImgVideo {
+            width: 315px;
+            height: 211px;
+            top: 49px;
+            left: 57px;
+        }
+        .video2 {
+          width: 260px;
+          height: 180px;
+          top: 14px;
+          left: 85px;
+        }
+        .cardImgAnimation {
+          height: 69px;
+          bottom: 26%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1100px){
+      .container {
+        max-width: 900px;
+        .video2 {
+          max-width: 72%;
+          width: 100%;
+          top: 6%;
+          left: 22%;
+        }
+        img {
+          max-width: 500px;
+        }
+        .cardImgAnimation{
+          left: 24%;
+          bottom: 13%;
+        }
+      }
+    }
+
+  @media screen and (max-width: 930px){
+    .container {
+      flex-direction: column;
+      .cardImg {
+        max-width: 520px;
+        width: 100%;
+        order: 1;
+        height: 477px;
+        .cardImgVideo {
+          width: 73%;
+          height: 76%;
+          top: 1%;
+          left: 14%;
+        }
+        .cardImgAnimation {
+          left: 16%;
+          bottom: 8%;
+        }
+
+        .video2{
+          width: 67%;
+          height: 39%;
+          top: 8%;
+          left: 18%;
+        }
+      }
+      .cardInfo {
+        font-size: 40px;
+        order: -1;
+        text-align: center;
+        width: 80%;
+      }
+    }
+  }
+
+  @media screen and (max-width: 530px){
+    .container {
+      flex-direction: column;
+      .cardImg {
+        height: fit-content;
+        text-align: center;
+        .cardImgVideo {
+          max-width: 73.5%;
+          width: 100%;
+          max-height: 67.5%;
+          height: 100%;
+          top: 14%;
+          left: 13.5%;
+        }
+        .cardImgAnimation {
+          max-width: 63%;
+          width: 100%;
+          height: 55px;
+          left: 14%;
+          bottom: 8%;
+          img{
+            width: 38px;
+            height: 57px;
+          }
+        }
+
+        .video2{
+          width: 62%;
+          height: 55%;
+          top: 5%;
+          left: 19%;
+        }
+        img {
+          max-width: 99%;
+          width: 100%;
+        }
+      }
+      .cardInfo {
+        order: -1;
+        text-align: center;
+        width: 80%;
+        h1 {
+          font-size: 40px;
+        }
+        h2 {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 430px){
+    .container {
+      flex-direction: column;
+      .cardInfo {
+        order: -1;
+        text-align: center;
+        width: 80%;
+        h1 {
+          font-size: 25px;
+        }
+        h2 {
+          font-size: 18px;
+        }
+      }
+    }
+  }
 }
 
 .faq {
@@ -220,13 +418,15 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  padding: 10px 0px;
   h1 {
     font-size: 53px;
     color: #fff;
     margin-bottom: 20px;
   }
   ul {
-    width: 815px;
+    max-width: 815px;
+    width: 100%;
     margin: 2em auto;
     padding: 0px;
     li {
@@ -289,6 +489,35 @@
       }
     }
   }
+
+  @media screen and (max-width: 930px){
+    h1{
+      font-size: 40px;
+    }
+    ul {
+      max-width: 88%;
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 530px){
+    h1{
+      font-size: 25px;
+    }
+    ul{
+      li{
+        button{
+          font-size: 18px;
+          padding: 8px 15px 8px 5px;
+        }
+
+        .answerOpen{
+          span{
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
 }
 
 .footer {
@@ -317,5 +546,9 @@
       padding-right: 12px;
       vertical-align: top;
     }
+  }
+  @media screen and (max-width: 930px){
+      max-width: 80%;
+      width: 100%;
   }
 }
