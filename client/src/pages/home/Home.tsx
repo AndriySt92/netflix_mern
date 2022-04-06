@@ -13,6 +13,7 @@ import { Route } from 'react-router-dom';
 import { MyList } from '../../components/myList/MyList';
 import { SearchMovie } from '../../components/searchMovie/SearchMovie';
 import { NewMoviesList } from '../../components/newMovieList/NewMovieList';
+import { Element } from 'react-scroll'
 
 
 interface HomeProps {
@@ -34,7 +35,6 @@ export const Home: React.FC<HomeProps> = ({type}) => {
     }, []);
    
     useEffect(() => {
-      console.log(type)
       dispatch(fetchMovie({type}))
       dispatch(fetchLists({type, genre}))
     }, [type, genre]);
@@ -53,6 +53,7 @@ export const Home: React.FC<HomeProps> = ({type}) => {
             <Featured type='movie' movie={movie as IMovie} setGenre={setGenre}/>
             {contentError && <Error error={contentError} />}
             {isContentLoading && <Loading smallLoader />}
+            <Element name='list'><div className='scrollToElement' ></div></Element>
             <Route path='/myList'><MyList myList={myList} /></Route>
             <Route path='/newMovies'><NewMoviesList newMoviesList={newMoviesList} /></Route>
             <Route path='/searchMovie'><SearchMovie searchedMovie={searchedMovie} offerContent={offerContent} /></Route>

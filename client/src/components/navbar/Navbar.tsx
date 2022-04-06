@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../store/reducers/authReducer/AuthSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import { searchMovie } from '../../store/reducers/movieReducer/ActionsCreators'
+import { Link as LinkToScroll } from 'react-scroll'
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false)
@@ -30,7 +31,7 @@ export const Navbar: React.FC = () => {
   }
 
   const handleSearch = () => {
-    if(text){
+    if (text) {
       dispatch(searchMovie(text))
       history.push('/searchMovie')
       setVisibleInput(false)
@@ -55,17 +56,39 @@ export const Navbar: React.FC = () => {
           <Link to="/movies" className="link">
             <span className="navbarmainLinks">Movies</span>
           </Link>
-          <Link to='/newMovies' className="link"><span>New and Popular</span></Link>
-          <Link to='/myList' className="link"><span>My List</span></Link>
+          <LinkToScroll delay={200} offset={-60} to="list" spy={true} smooth={true} duration={800}>
+            <Link to="/newMovies" className="link">
+              <span>New and Popular</span>
+            </Link>
+          </LinkToScroll>
+          <LinkToScroll delay={200} offset={-60} to="list" spy={true} smooth={true} duration={800}>
+            <Link to="/myList" className="link">
+              <span>My List</span>
+            </Link>
+          </LinkToScroll>
         </div>
         <div className="right">
           {!visibleInput ? (
             <Search className="icon" onClick={handleIconSearch} />
           ) : (
-            <div className='search'>
+            <div className="search">
               {' '}
-              <input value={text} type="email" name="email" placeholder="Email address" onChange={(e) => setText(e.target.value)} />
-              <Search className="icon" onClick={handleSearch} />
+              <input
+                value={text}
+                type="email"
+                name="email"
+                placeholder="Email address"
+                onChange={(e) => setText(e.target.value)}
+              />
+              {text ? <LinkToScroll
+                delay={200}
+                offset={-60}
+                to="list"
+                spy={true}
+                smooth={true}
+                duration={800}>
+                <Search className="icon" onClick={handleSearch} />
+              </LinkToScroll> : <Search className="icon" onClick={handleSearch} />}
             </div>
           )}
           <span>KID</span>
